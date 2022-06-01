@@ -1,0 +1,8 @@
+# Ignore artifacts:
+assets
+build
+coverage
+out
+temporary
+node_modules
+docker-compose-data

@@ -1,0 +1,75 @@
+<% include ../partials/header %>
+
+<style>
+    .myContainer {
+        border-radius: 50px;
+
+        padding-top: 2%;
+        padding-bottom: 5%;
+        margin-bottom: 30px;
+        color: inherit;
+        background-color: #eee;
+        
+        width: 95%;
+    }
+
+    .alignCenterHoriz{
+        text-align: center;
+        background: rgb(200,200,200);
+    }
+
+    .logButtons{
+        /* position: relative; */
+        /* left: 50%; */
+        /* transform: translateX(-50%); */
+        /* margin: 0 15px 15px 15px; */
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .pageButtonGroup {
+        position: relative; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    .expandButton {
+      margin-top: 15px;
+    }
+</style>
+
+
+<div class="container myContainer">
+    <h1><u>Moderation</u></h1>
+    <div>
+        <h4>Hi mods, thanks for all your hard work! I appreciate it very much :).</h4>
+    </div>
+
+    <br>
+    <br>
+
+    <div>
+        Useful links:
+        <ul>
+            <li><a href="/profile/mod/customavatar">Custom Avatar Requests</a></li>
+            <li><a href="/mod/report">Report logs</a></li>
+        </ul>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Moderation logs:</h3>
+        </div>
+        <div react-entrypoint class="panel-body" id="logsDiv"><%- logsReact %></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="<%-getVersionedPath('/dist_webpack/modLog.bundle.js')%>"></script>
+
+<% include ../partials/footer %>
