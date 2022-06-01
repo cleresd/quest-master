@@ -1,21 +1,22 @@
 import mongoose from 'mongoose';
 
+
 const avatarRequestSchema = new mongoose.Schema({
-  forUsername: String,
+    forUsername: String,
 
-  resLink: String,
-  spyLink: String,
-  msgToMod: String,
+    resLink: String,
+    spyLink: String,
+    msgToMod: String,
 
-  dateRequested: Date,
+    dateRequested: Date,
 
-  dateProcessed: Date,
-  modWhoProcessed: String,
+    dateProcessed: Date,
+    modWhoProcessed: String,
 
-  processed: Boolean,
+    processed: Boolean,
 
-  modComment: String,
-  approved: Boolean,
+    modComment: String,
+    approved: Boolean
 });
 
 export default mongoose.model('AvatarRequest', avatarRequestSchema);

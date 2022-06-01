@@ -9,7 +9,7 @@
 */
 
 class HunterTestPhase {
-    constructor(thisRoom) {
+    constructor ( thisRoom ) {
         this.thisRoom = thisRoom;
 
         this.phase = 'hunterTestPhase';
@@ -17,7 +17,7 @@ class HunterTestPhase {
     }
 
 
-    gameMove(socket, buttonPressed, selectedPlayers) {
+    gameMove ( socket, buttonPressed, selectedPlayers ) {
         /* TODO: GameMove */
     }
 
@@ -26,20 +26,20 @@ class HunterTestPhase {
     //  hidden          - Is the button hidden?
     //  disabled        - Is the button disabled?
     //  setText         - What text to display in the button
-    buttonSettings(indexOfPlayer) {
+    buttonSettings ( indexOfPlayer ) {
         /* TODO: buttonSettings */
     }
 
-    numOfTargets(indexOfPlayer) {
+    numOfTargets ( indexOfPlayer ) {
         /* TODO: numOfTargets */
     }
 
 
-    getStatusMessage(indexOfPlayer) {
+    getStatusMessage ( indexOfPlayer ) {
         /* TODO: getStatusMessage */
     }
 
-    getProhibitedIndexesToPick(indexOfPlayer) {
+    getProhibitedIndexesToPick ( indexOfPlayer ) {
         /* TODO: getProhibitedIndexesToPick in an array */
     }
 }

@@ -2,33 +2,34 @@
 import fs from 'fs';
 import path from 'path';
 
-function index() {
-  // Import all the roles from AVALON
-  this.getCards = function (thisRoom) {
-    const normalizedPath = path.join(__dirname, './cards');
 
-    const cardImports = {};
-    const obj = {};
+function index () {
+    // Import all the roles from AVALON
+    this.getCards = function ( thisRoom ) {
+        const normalizedPath = path.join(__dirname, './cards');
 
-    fs.readdirSync(normalizedPath).forEach((file) => {
-      // console.log(file);
+        const cardImports = {};
+        const obj = {};
 
-      if (file.includes('.js') === true && !file.includes('.map')) {
-        name = file.replace('.js', '');
+        fs.readdirSync(normalizedPath).forEach(( file ) => {
+            // console.log(file);
 
-        cardImports[name] = require(`./cards/${file}`).default;
-      }
-    });
+            if ( file.includes('.js') === true && !file.includes('.map') ) {
+                name = file.replace('.js', '');
 
-    for (var name in cardImports) {
-      if (cardImports.hasOwnProperty(name)) {
-        // Initialise it
-        obj[name] = new cardImports[name](thisRoom);
-      }
-    }
+                cardImports[name] = require(`./cards/${file}`).default;
+            }
+        });
 
-    return obj;
-  };
+        for ( var name in cardImports ) {
+            if ( cardImports.hasOwnProperty(name) ) {
+                // Initialise it
+                obj[name] = new cardImports[name](thisRoom);
+            }
+        }
+
+        return obj;
+    };
 }
 
 export default index;

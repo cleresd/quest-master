@@ -2,35 +2,36 @@
 import fs from 'fs';
 import path from 'path';
 
-function index() {
-  // Import all the roles from AVALON
-  this.getPhases = function (thisRoom) {
-    const normalizedPath = path.join(__dirname, './phases');
 
-    const phases = {};
-    const obj = {};
+function index () {
+    // Import all the roles from AVALON
+    this.getPhases = function ( thisRoom ) {
+        const normalizedPath = path.join(__dirname, './phases');
 
-    fs.readdirSync(normalizedPath).forEach((file) => {
-      // console.log(file);
+        const phases = {};
+        const obj = {};
 
-      // If it is a javascript file, add it
-      if (file.includes('.js') === true && !file.includes('.map')) {
-        // Trim .js at the end of the file name
-        name = file.replace('.js', '');
+        fs.readdirSync(normalizedPath).forEach(( file ) => {
+            // console.log(file);
 
-        phases[name] = require(`./phases/${file}`).default;
-      }
-    });
+            // If it is a javascript file, add it
+            if ( file.includes('.js') === true && !file.includes('.map') ) {
+                // Trim .js at the end of the file name
+                name = file.replace('.js', '');
 
-    for (var name in phases) {
-      if (phases.hasOwnProperty(name)) {
-        // Initialise it
-        obj[name] = new phases[name](thisRoom);
-      }
-    }
+                phases[name] = require(`./phases/${file}`).default;
+            }
+        });
 
-    return obj;
-  };
+        for ( var name in phases ) {
+            if ( phases.hasOwnProperty(name) ) {
+                // Initialise it
+                obj[name] = new phases[name](thisRoom);
+            }
+        }
+
+        return obj;
+    };
 }
 
 export default index;

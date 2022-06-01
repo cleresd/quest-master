@@ -1,47 +1,48 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
+
 
 const ReportSchema = new mongoose.Schema({
-  reportedPlayer: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+    reportedPlayer: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        username: String
     },
-    username: String,
-  },
 
-  playerWhoReported: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+    playerWhoReported: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        username: String
     },
-    username: String,
-  },
 
-  date: Date,
+    date: Date,
 
-  reason: String,
+    reason: String,
 
-  description: String,
+    description: String,
 
-  resolved: {
-    type: Boolean,
-    default: false,
-  },
-
-  modComment: String,
-
-  modWhoResolved: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+    resolved: {
+        type: Boolean,
+        default: false
     },
-    username: String,
-  },
 
-  allChat5Mins: String,
-  roomChat: String,
-  roles: String,
-  voteHistory: String,
+    modComment: String,
+
+    modWhoResolved: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        username: String
+    },
+
+    allChat5Mins: String,
+    roomChat: String,
+    roles: String,
+    voteHistory: String
 });
 
 const Report = mongoose.model('Report', ReportSchema);

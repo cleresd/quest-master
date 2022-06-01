@@ -2,18 +2,18 @@ import mongoose from 'mongoose';
 
 // SCHEMA SETUP
 const modLogSchema = new mongoose.Schema({
-  type: String,
-  modWhoMade: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+    type: String,
+    modWhoMade: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        username: String,
+        usernameLower: String
     },
-    username: String,
-    usernameLower: String,
-  },
-  data: Object,
+    data: Object,
 
-  dateCreated: Date,
+    dateCreated: Date
 });
 
 // compile schema into a model

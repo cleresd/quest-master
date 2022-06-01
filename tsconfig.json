@@ -7,17 +7,33 @@
     "jsx": "react",
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "lib": ["es2018", "dom"],
-    "module": "commonjs",
-    "target": "es2018",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "module": "es2020",
+    "target": "es2021",
     "baseUrl": ".",
     "paths": {
-      "*": ["node_modules/*", "src/types/*"]
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ]
     },
-    "typeRoots": ["node_modules/@types", "src/types"],
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ],
     "outDir": "./out"
   },
-  "assets": ["**/src/views"],
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules", "assets"]
+  "assets": [
+    "**/src/views"
+  ],
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "assets"
+  ]
 }

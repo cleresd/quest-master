@@ -1,5 +1,5 @@
 import React from 'react';
-import { hydrate } from 'react-dom';
+import {hydrate} from 'react-dom';
 import ModLog from './index';
 
-hydrate(<ModLog />, document.getElementById('logsDiv'));
+hydrate(<ModLog/>, document.getElementById('logsDiv'));

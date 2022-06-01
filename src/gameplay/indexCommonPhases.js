@@ -2,34 +2,35 @@
 import fs from 'fs';
 import path from 'path';
 
-function index() {
-  // Import all the roles from AVALON
-  this.getPhases = function (thisRoom) {
-    const normalizedPath = path.join(__dirname, './commonPhases');
 
-    const commonPhases = {};
-    const obj = {};
+function index () {
+    // Import all the roles from AVALON
+    this.getPhases = function ( thisRoom ) {
+        const normalizedPath = path.join(__dirname, './commonPhases');
 
-    fs.readdirSync(normalizedPath).forEach((file) => {
-      // console.log(file);
+        const commonPhases = {};
+        const obj = {};
 
-      // If it is a javascript file, add it
-      if (file.includes('.js') === true && !file.includes('.map')) {
-        name = file.replace('.js', '');
+        fs.readdirSync(normalizedPath).forEach(( file ) => {
+            // console.log(file);
 
-        commonPhases[name] = require(`./commonPhases/${file}`).default;
-      }
-    });
+            // If it is a javascript file, add it
+            if ( file.includes('.js') === true && !file.includes('.map') ) {
+                name = file.replace('.js', '');
 
-    for (var name in commonPhases) {
-      if (commonPhases.hasOwnProperty(name)) {
-        // Initialise it
-        obj[name] = new commonPhases[name](thisRoom);
-      }
-    }
+                commonPhases[name] = require(`./commonPhases/${file}`).default;
+            }
+        });
 
-    return obj;
-  };
+        for ( var name in commonPhases ) {
+            if ( commonPhases.hasOwnProperty(name) ) {
+                // Initialise it
+                obj[name] = new commonPhases[name](thisRoom);
+            }
+        }
+
+        return obj;
+    };
 }
 
 export default index;
