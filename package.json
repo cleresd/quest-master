@@ -10,7 +10,7 @@
     "dev:webpack": "webpack serve --config webpack.dev.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --fix",
-    "start": "ts-node ./out/app.ts",
+    "start": "ts-node ./src/app.ts",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage"
