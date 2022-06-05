@@ -1,5 +1,6 @@
+
 class ResChief {
-    constructor ( thisRoom ) {
+    constructor(thisRoom) {
         this.thisRoom = thisRoom;
 
         this.specialPhase = undefined;
@@ -14,14 +15,13 @@ class ResChief {
         };
     }
 
-    checkSpecialMove ( socket, buttonPressed, selectedPlayers ) {
+    checkSpecialMove(socket, buttonPressed, selectedPlayers) {
         /* TODO: Check if we need to go to a special phase */
     }
 
-    getPublicGameData () {
+    getPublicGameData() {
         /* TODO: (Can delete this function. Not absolutely necessary)
         Public data to show the user(s) e.g. assassin bullet */
     }
 }
-
 module.exports = ResChief;

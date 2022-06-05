@@ -7,40 +7,40 @@
 - Status message to display
 */
 
-function Frozen ( thisRoom_ ) {
-    this.thisRoom = thisRoom_;
+function Frozen(thisRoom_) {
+  this.thisRoom = thisRoom_;
 
-    this.phase = 'frozen';
-    this.showGuns = true;
+  this.phase = 'frozen';
+  this.showGuns = true;
 }
 
-Frozen.prototype.gameMove = function ( socket, buttonPressed, selectedPlayers ) {
-    // Game is paused, no actions.
+Frozen.prototype.gameMove = function (socket, buttonPressed, selectedPlayers) {
+  // Game is paused, no actions.
 };
 
-Frozen.prototype.buttonSettings = function ( indexOfPlayer ) {
-    const obj = {
-        green: {},
-        red: {}
-    };
+Frozen.prototype.buttonSettings = function (indexOfPlayer) {
+  const obj = {
+    green: {},
+    red: {},
+  };
 
-    obj.green.hidden = true;
-    obj.green.disabled = true;
-    obj.green.setText = '';
+  obj.green.hidden = true;
+  obj.green.disabled = true;
+  obj.green.setText = '';
 
-    obj.red.hidden = true;
-    obj.red.disabled = true;
-    obj.red.setText = '';
+  obj.red.hidden = true;
+  obj.red.disabled = true;
+  obj.red.setText = '';
 
-    return obj;
+  return obj;
 };
 
-Frozen.prototype.numOfTargets = function ( indexOfPlayer ) {
-    return null;
+Frozen.prototype.numOfTargets = function (indexOfPlayer) {
+  return null;
 };
 
-Frozen.prototype.getStatusMessage = function ( indexOfPlayer ) {
-    return 'The game is frozen. Waiting for all players to rejoin.';
+Frozen.prototype.getStatusMessage = function (indexOfPlayer) {
+  return 'The game is frozen. Waiting for all players to rejoin.';
 };
 
 export default Frozen;

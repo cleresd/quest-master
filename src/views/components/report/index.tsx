@@ -1,9 +1,9 @@
 import React from 'react';
-import {hot} from 'react-hot-loader/root';
-import {ReportModal} from './reportModal';
+import { hot } from 'react-hot-loader/root';
+import { ReportModal } from './reportModal';
 
 function Report() {
-    return <ReportModal/>;
+  return <ReportModal />;
 }
 
 export default hot(Report);

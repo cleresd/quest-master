@@ -1,5 +1,6 @@
+
 class Spy {
-    constructor ( thisRoom ) {
+    constructor(thisRoom) {
         this.thisRoom = thisRoom;
 
         this.role = 'Spy';
@@ -9,14 +10,14 @@ class Spy {
     }
 
     // Spy sees all spies except oberon
-    see () {
-        if ( this.thisRoom.gameStarted === true ) {
+    see() {
+        if (this.thisRoom.gameStarted === true) {
             const obj = {};
             const array = [];
 
-            for ( let i = 0; i < this.thisRoom.playersInGame.length; i++ ) {
-                if ( this.thisRoom.playersInGame[i].alliance === 'Spy' ) {
-                    if ( this.thisRoom.playersInGame[i].role === 'Oberon' ) {
+            for (let i = 0; i < this.thisRoom.playersInGame.length; i++) {
+                if (this.thisRoom.playersInGame[i].alliance === 'Spy') {
+                    if (this.thisRoom.playersInGame[i].role === 'Oberon') {
                         // don't add oberon
                     } else {
                         // add the spy
@@ -30,7 +31,7 @@ class Spy {
         }
     }
 
-    checkSpecialMove () {
+    checkSpecialMove() {
 
     }
 }

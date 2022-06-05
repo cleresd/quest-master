@@ -2,50 +2,50 @@ import mongoose from 'mongoose';
 
 // SCHEMA SETUP
 const banSchema = new mongoose.Schema({
-    userBan: Boolean,
-    ipBan: Boolean,
-    singleIPBan: Boolean,
+  userBan: Boolean,
+  ipBan: Boolean,
+  singleIPBan: Boolean,
 
-    bannedPlayer: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        username: String,
-        usernameLower: String
+  bannedPlayer: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
+    username: String,
+    usernameLower: String,
+  },
 
-    bannedIPs: [String],
+  bannedIPs: [String],
 
-    modWhoBanned: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        username: String,
-        usernameLower: String
+  modWhoBanned: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
+    username: String,
+    usernameLower: String,
+  },
 
-    whenMade: Date,
-    durationToBan: String,
-    whenRelease: Date,
+  whenMade: Date,
+  durationToBan: String,
+  whenRelease: Date,
 
-    descriptionByMod: String,
-    reason: String,
+  descriptionByMod: String,
+  reason: String,
 
-    disabled: {
-        type: Boolean,
-        default: false
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+
+  disabledBy: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
-
-    disabledBy: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        username: String,
-        usernameLower: String
-    }
+    username: String,
+    usernameLower: String,
+  },
 });
 
 // compile schema into a model

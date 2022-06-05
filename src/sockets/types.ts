@@ -1,8 +1,8 @@
-import {Socket} from 'socket.io';
+import { Socket } from 'socket.io';
 import User from '../models/user';
 
 export type SocketUser = Socket & {
-    request: {
-        user: typeof User;
-    };
+  request: {
+    user: typeof User;
+  };
 };

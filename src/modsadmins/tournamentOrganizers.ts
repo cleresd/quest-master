@@ -3,5 +3,5 @@
 export const TOsArray = ['tyrrox', 'glorious', 'goofy', 'portujules', 'raytrout'];
 
 export function isTO(username: string): boolean {
-    return TOsArray.includes(username.toLowerCase());
+  return TOsArray.includes(username.toLowerCase());
 }

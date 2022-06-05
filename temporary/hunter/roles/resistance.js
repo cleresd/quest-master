@@ -1,5 +1,6 @@
+
 class Resistance {
-    constructor ( thisRoom ) {
+    constructor(thisRoom) {
         this.thisRoom = thisRoom;
 
         this.role = 'Resistance';
@@ -8,11 +9,11 @@ class Resistance {
         this.description = 'A standard Resistance member.';
     }
 
-    see () {
+    see() {
         return undefined;
     }
 
-    checkSpecialMove () {
+    checkSpecialMove() {
 
     }
 }
