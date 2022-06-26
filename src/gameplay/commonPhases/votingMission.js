@@ -17,12 +17,41 @@ VotingMission.prototype.gameMove = function (
   // if this.thisRoom vote is coming from someone who hasn't voted yet
   if (i !== -1) {
     if (buttonPressed === 'yes') {
-      this.thisRoom.missionVotes[
-        usernamesIndexes.getIndexFromUsername(
-          this.thisRoom.playersInGame,
-          socket.request.user.username
-        )
-      ] = 'succeed';
+      const index = usernamesIndexes.getIndexFromUsername(
+        this.thisRoom.playersInGame,
+        socket.request.user.username
+      );
+      /*const hasMagicToken = index === this.thisRoom.playerMagicToken;
+      const isEvil = this.thisRoom.playersInGame[index].alliance === 'Spy';
+      const role = this.thisRoom.playersInGame[index].role;
+
+      const result = this.thisRoom.specialRoles[role.toLowerCase()].canVoteOnMission?.(true, role, isEvil, hasMagicToken);*/
+
+   /*   if (typeof result === 'string') {
+        socket.emit(
+          'danger-alert',
+          'You are Youth. You have an amulet. You must fail.'
+        );
+        return;
+      }*/
+
+      if (index === this.thisRoom.playerMagicToken && this.thisRoom.playersInGame[index].role === 'Youth') {
+        socket.emit(
+          'danger-alert',
+          'You are Youth. You have an amulet. You must fail.'
+        );
+        return;
+      }
+
+      if (this.thisRoom.playersInGame[index].role === 'Lunatic' && index !== this.thisRoom.playerMagicToken) {
+        socket.emit(
+          'danger-alert',
+          'You are Lunatic. You must fail.'
+        );
+        return;
+      }
+
+      this.thisRoom.missionVotes[index] = 'succeed';
       // console.log("received succeed from " + socket.request.user.username);
     } else if (buttonPressed === 'no') {
       // If the user is a res, they shouldn't be allowed to fail
@@ -30,7 +59,10 @@ VotingMission.prototype.gameMove = function (
         this.thisRoom.playersInGame,
         socket.request.user.username
       );
-      if (
+
+      if (index === this.thisRoom.playerMagicToken && this.thisRoom.playersInGame[index].role === 'Youth') {
+        // do nothing, Youth must fail
+      } else if (
         index !== -1 &&
         this.thisRoom.playersInGame[index].alliance === 'Resistance'
       ) {
@@ -41,12 +73,23 @@ VotingMission.prototype.gameMove = function (
         return;
       }
 
-      this.thisRoom.missionVotes[
-        usernamesIndexes.getIndexFromUsername(
-          this.thisRoom.playersInGame,
-          socket.request.user.username
-        )
-      ] = 'fail';
+      if (index === this.thisRoom.playerMagicToken && this.thisRoom.playersInGame[index].alliance === 'Spy') {
+        socket.emit(
+          'danger-alert',
+          'You have an amulet. You can\'t fail.'
+        );
+        return;
+      }
+
+      if (this.thisRoom.playersInGame[index].role === 'Brute' && this.thisRoom.missionNum >= 4) {
+        socket.emit(
+          'danger-alert',
+          'You are Brute. You can fail only first three missions.'
+        );
+        return;
+      }
+
+      this.thisRoom.missionVotes[index] = 'fail';
       // console.log("received fail from " + socket.request.user.username);
     } else {
       console.log(
@@ -120,33 +163,68 @@ VotingMission.prototype.gameMove = function (
       }
     }
 
+    // TODO: move in another place
+    if (numOfFails === 3 && this.thisRoom.revealerIndex !== -1) {
+      const players = this.thisRoom.playersInGame;
+      const revealerUsername = players[this.thisRoom.revealerIndex].username;
+
+      this.thisRoom.sendText(
+        this.thisRoom.allSockets,
+        `${revealerUsername} revealed himself as Revealer! He is a Spy.`,
+        'gameplay-text-red'
+      );
+
+      for (let i = 0; i < players.length; i++) {
+        if (i === this.thisRoom.revealerIndex) continue;
+
+        players[i].see = players[i].see || {};
+
+        if (!players[i].see.spies) {
+          players[i].see.spies = [];
+        }
+
+        if (!players[i].see.spies.includes(players[i].username)) {
+          players[i].see.spies.push(revealerUsername);
+        }
+
+        players[i].see[revealerUsername] = {};
+        players[i].see[revealerUsername].roleTag = 'Revealer';
+      }
+    }
+
     // game over if more than 3 fails or successes
     if (numOfFails >= 3) {
-      this.thisRoom.winner = 'Spy';
-      this.thisRoom.howWasWon = 'Mission fails.';
-      this.thisRoom.finishGame('Spy');
+      this.thisRoom.phase = 'finalQuest';
+      // this.thisRoom.winner = 'Spy';
+      // this.thisRoom.howWasWon = 'Mission fails.';
+      // this.thisRoom.finishGame('Spy');
     } else if (numOfSucceeds >= 3) {
-      this.thisRoom.winner = 'Resistance';
-      this.thisRoom.howWasWon = 'Mission successes';
-      this.thisRoom.finishGame('Resistance');
+      // this.thisRoom.teamLeader = this.thisRoom.playersInGame.findIndex(player => player.role === "BlindHunter");
+      this.thisRoom.phase = 'hunt';
+      // this.thisRoom.winner = 'Resistance';
+      // this.thisRoom.howWasWon = 'Mission successes';
+      // this.thisRoom.finishGame('Resistance');
     }
     // If the game goes on
     else {
       this.thisRoom.missionNum++;
       this.thisRoom.pickNum = 1;
+      this.thisRoom.playerVeterans.push(this.thisRoom.teamLeader);
+      this.thisRoom.playerMagicToken = -1;
 
-      this.thisRoom.teamLeader--;
+
+      /*this.thisRoom.teamLeader--;
       if (this.thisRoom.teamLeader < 0) {
         this.thisRoom.teamLeader = this.thisRoom.playersInGame.length - 1;
-      }
+      }*/
 
-      this.thisRoom.hammer =
+      /*this.thisRoom.hammer =
         (this.thisRoom.teamLeader -
           5 +
           1 +
           this.thisRoom.playersInGame.length) %
-        this.thisRoom.playersInGame.length;
-      this.thisRoom.phase = 'pickingTeam';
+        this.thisRoom.playersInGame.length;*/
+      this.thisRoom.phase = 'pickingLeader';
     }
     this.thisRoom.requireSave = true;
   }

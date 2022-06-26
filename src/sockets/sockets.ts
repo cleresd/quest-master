@@ -2860,6 +2860,8 @@ function playerLeaveRoomCheckDestroy(socket) {
       rooms[roomId].allSockets.length === 0
     ) {
       const curr = new Date();
+      // const timeToKill = 1000 * 60 * 60 * 24 * 5; // 5 days
+      // const timeToKill = 1000 * 60 * 30; // 30 mins
       const timeToKill = 1000 * 60 * 5; // 5 mins
       // var timeToKill = 1000*10; //10s
       if (

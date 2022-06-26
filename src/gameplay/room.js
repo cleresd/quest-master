@@ -502,7 +502,12 @@ Room.prototype.sendOutGameModesInRoomToSocket = function (targetSocket) {
   const cardDescriptions = [];
   const cardPriorities = [];
 
-  const skipRoles = ['Resistance', 'Spy'];
+  const defaultActiveRoles = this.gameMode.includes('quest')
+    ? ['MorganLeFay', 'BlindHunter', 'Cleric', 'Youth']
+    : ['Merlin', 'Assassin', 'Percival', 'Morgana'];
+  const skipRoles = this.gameMode.includes('quest')
+    ? ['Servant', 'Minion']
+    : ['Resistance', 'Spy'];
 
   for (let key in this.specialRoles) {
     if (this.specialRoles.hasOwnProperty(key) === true) {
@@ -539,6 +544,8 @@ Room.prototype.sendOutGameModesInRoomToSocket = function (targetSocket) {
     gameModes: GAME_MODE_NAMES,
     roles: {
       roleNames,
+      defaultActiveRoles,
+      skipRoles,
       alliances: roleAlliances,
       descriptions: roleDescriptions,
       orderPriorities: rolePriorities,

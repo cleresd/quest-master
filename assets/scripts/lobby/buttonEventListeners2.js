@@ -154,7 +154,7 @@ document.querySelector('#claimButton').addEventListener('click', () => {
   // click a disabled claim button
   if (isSpectator === false) {
     const btnText = $('#claimButton').text();
-    if (btnText === 'Claim') {
+    if (btnText === 'Cringe') {
       socket.emit('setClaim', true);
     } else {
       socket.emit('setClaim', false);

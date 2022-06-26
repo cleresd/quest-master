@@ -54,26 +54,58 @@ function Game(
   //* *******************************
   this.minPlayers = 5;
   this.alliances = [
-    'Resistance',
-    'Resistance',
-    'Resistance',
     'Spy',
     'Spy',
     'Resistance',
-    'Spy',
     'Resistance',
-    'Resistance',
-    'Spy',
+    'Spy', // 5 - 2 Res 3 Spy
+    'Resistance', // 6 - 3 Res 3 Spy
+    'Spy', // 7 - 3 Res 4 Spy
+    'Resistance', // 8 - 4 Res 4 Spy
+    'Spy', // 9 - 4 Res 5 Spy
+    'Resistance', // 10 - 5 Res 5 Spy
   ];
+/*  this.alliances = [
+    'Spy',
+    'Spy',
+    'Resistance',
+    'Resistance',
+    'Spy', // 5 - 2 Res 3 Spy
+    'Resistance', // 6 - 3 Res 3 Spy
+    'Resistance', // 7 - 4 Res 3 Spy
+    'Spy', // 8 - 4 Res 4 Spy
+    'Spy', // 9 - 4 Res 5 Spy
+    'Resistance', // 10 - 5 Res 5 Spy
+  ];*/
+  /*this.alliances = [
+    'Resistance',
+    'Resistance',
+    'Resistance',
+    'Spy',
+    'Spy',
+    'Resistance',
+    'Spy',
+    'Resistance',
+    'Resistance',
+    'Spy',
+  ];*/
 
   this.numPlayersOnMission = [
-    ['2', '3', '2', '3', '3'],
-    ['2', '3', '4', '3', '4'],
-    ['2', '3', '3', '4*', '4'],
-    ['3', '4', '4', '5*', '5'],
-    ['3', '4', '4', '5*', '5'],
-    ['3', '4', '4', '5*', '5'],
+    ['3', '2', '3', '4*', '3'],
+    ['3', '2', '3', '4*A', '3'],
+    ['3', '2', '3A', '4*A', '3'],
+    ['4', '3A', '4*A', '5*A', '4'],
+    ['4', '3A', '4*A', '5*A', '4'],
+    ['4', '3A', '4*A', '5*A', '4'],
   ];
+/*  this.numPlayersOnMission = [
+    ['1M', '1M', '1', '1M', '1'],
+    ['1', '1', '1', '1M', '1'],
+    ['1', '1', '1M', '1M', '1'],
+    ['1', '1M', '1M', '1M', '1'],
+    ['1', '1M', '1M', '1M', '1'],
+    ['1', '1M', '1M', '1M', '1'],
+  ];*/
 
   // Get the Room properties
   Room.call(
@@ -139,6 +171,7 @@ function Game(
   this.gameStarted = false;
   this.finished = false;
 
+  // TODO: pickingTeamQuest
   this.phase = 'pickingTeam';
   this.phaseBeforePause = '';
 
@@ -177,6 +210,15 @@ function Game(
   this.chatHistory = []; // Here because chatHistory records after game starts
 
   this.muteSpectators = muteSpectators_;
+
+  // Quest game mode variables
+  this.previousTeamLeader = -1;
+  this.revealerIndex = -1;
+  this.playerPositions = [];
+  this.playerVeterans = [];
+  this.playerMagicToken = -1;
+  this.playerAmulet = [];
+  this.playerAmuletTargets = [];
 }
 
 // Game object inherits all the functions and stuff from Room
@@ -407,6 +449,7 @@ Game.prototype.startGame = function (options) {
 
     this.playersInGame[i].request = this.socketsOfPlayers[i].request;
 
+    // TODO: figure out what's going on here
     // set the role to be from the roles array with index of the value
     // of the rolesAssignment which has been shuffled
     this.playersInGame[i].alliance = this.alliances[rolesAssignment[i]];
@@ -415,6 +458,14 @@ Game.prototype.startGame = function (options) {
       this.socketsOfPlayers[i].request.user.username
     );
   }
+
+  // get a random starting team leader
+  const ququshkaId = this.playersInGame.findIndex(player => player.username === 'pronub');
+  this.teamLeader = ququshkaId !== -1 ? ququshkaId : getRandomInt(0, this.playersInGame.length);
+  // this.teamLeader = getRandomInt(0, this.playersInGame.length);
+  this.hammer =
+    (this.teamLeader - 5 + 1 + this.playersInGame.length) %
+    this.playersInGame.length;
 
   // for(let key in this.specialRoles){
   // 	if(this.specialRoles.hasOwnProperty(key)){
@@ -468,12 +519,17 @@ Game.prototype.startGame = function (options) {
     }
   }
 
-  // Assign the res roles randomly
-  rolesAssignment = generateAssignmentOrders(resPlayers.length);
-  for (let i = 0; i < rolesAssignment.length; i++) {
-    this.playersInGame[resPlayers[i]].role = this.resRoles[rolesAssignment[i]];
-    // console.log("res role: " + resRoles[rolesAssignment[i]]);
-  }
+  do {
+    // Assign the res roles randomly
+    rolesAssignment = generateAssignmentOrders(resPlayers.length);
+    for (let i = 0; i < rolesAssignment.length; i++) {
+      this.playersInGame[resPlayers[i]].role = this.resRoles[rolesAssignment[i]];
+      // console.log("res role: " + resRoles[rolesAssignment[i]]);
+    }
+  } while (
+    options.includes('Cleric')
+    && this.playersInGame[this.teamLeader].role === 'Cleric'
+    );
 
   // Assign the spy roles randomly
   rolesAssignment = generateAssignmentOrders(spyPlayers.length);
@@ -485,26 +541,41 @@ Game.prototype.startGame = function (options) {
   // for those players with no role, set their role to their alliance (i.e. for Resistance VT and Spy VS)
   for (let i = 0; i < this.playersInGame.length; i++) {
     // console.log(this.playersInGame[i].role);
+    if (this.playersInGame[i].role === 'Revealer') {
+      this.revealerIndex = i;
+    }
+
     if (this.playersInGame[i].role === undefined) {
-      this.playersInGame[i].role = this.playersInGame[i].alliance;
+      if (this.gameMode.includes('quest')) {
+        this.playersInGame[i].role = this.playersInGame[i].alliance === 'Spy' ? 'Minion' : 'Servant';
+      } else {
+        this.playersInGame[i].role = this.playersInGame[i].alliance;
+      }
       // console.log("Overwrite role as alliance for player: " + this.playersInGame[i].username);
     }
+  }
+
+  // set game start parameters
+  this.playerPositions = [...Array(this.playersInGame.length).keys()].reverse();
+
+  while(this.playerPositions[0] !== this.teamLeader) {
+    this.playerPositions.splice(this.playerPositions.length - 1, 0, this.playerPositions.splice(0, 1)[0]);
   }
 
   // Prepare the data for each person to see for the rest of the game.
   // The following data do not change as the game goes on.
   for (let i = 0; i < this.playersInGame.length; i++) {
     // Lowercase the role to give the file name
+    // console.log(this.playersInGame[i].username + ' - ' + this.playersInGame[i].role);
     const roleLower = this.playersInGame[i].role.toLowerCase();
     this.playersInGame[i].see = this.specialRoles[roleLower].see();
   }
 
-  // set game start parameters
-  // get a random starting team leader
-  this.teamLeader = getRandomInt(0, this.playersInGame.length);
-  this.hammer =
-    (this.teamLeader - 5 + 1 + this.playersInGame.length) %
-    this.playersInGame.length;
+/*  const bhId = this.playersInGame.findIndex(player => player.role === 'Youth');
+  this.playersInGame[bhId].role = this.playersInGame[ququshkaId].role;
+  this.playersInGame[bhId].alliance = this.playersInGame[ququshkaId].alliance;
+  this.playersInGame[ququshkaId].role = 'Youth';
+  this.playersInGame[ququshkaId].alliance = 'Resistance';*/
 
   this.missionNum = 1;
   this.pickNum = 1;
@@ -1022,6 +1093,7 @@ Game.prototype.getGameData = function () {
         this.playersInGame.length
       );
       data[i].hammer = this.hammer;
+      data[i].playerPositions = this.playerPositions;
 
       data[i].playersYetToVote = this.playersYetToVote;
       data[i].phase = this.phase;
@@ -1101,6 +1173,7 @@ Game.prototype.getGameDataForSpectators = function () {
     this.playersInGame.length
   );
   data.hammer = this.hammer;
+  data.playerPositions = this.playerPositions;
 
   data.playersYetToVote = this.playersYetToVote;
   data.phase = this.phase;
@@ -1647,7 +1720,10 @@ Game.prototype.finishGame = function (toBeWinner) {
 
 Game.prototype.calcMissionVotes = function (votes) {
   let requiresTwoFails = false;
-  if (this.playersInGame.length >= 7 && this.missionNum === 4) {
+  if (this.playersInGame.length >= 8 && this.missionNum === 3) {
+    requiresTwoFails = true;
+  }
+  if (this.playersInGame.length >= 5 && this.missionNum === 4) {
     requiresTwoFails = true;
   }
 
@@ -1669,7 +1745,7 @@ Game.prototype.calcMissionVotes = function (votes) {
     }
   }
 
-  // calcuate the outcome
+  // calculate the outcome
   if (countFail === 0) {
     outcome = 'succeeded';
   } else if (countFail === 1 && requiresTwoFails === true) {

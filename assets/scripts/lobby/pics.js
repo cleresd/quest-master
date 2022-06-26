@@ -40,7 +40,7 @@ const pics = {
             z-index: 2;
             top: 63%;
             left: 90%;
-            transform: translate(-50%, -50%);
+            transform: translate(-130%, -150%);
             width: 128px;
             height: 128px;
         `,
@@ -126,7 +126,7 @@ const pics = {
     style: `
             top: 0px;
             position: absolute;
-            transform: translate(-50%, 0%);
+            transform: translate(-50%, 35%);
             height: 100px;
         `,
     maxHeight: '100px',

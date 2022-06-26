@@ -4,7 +4,7 @@ function PickingTeam(thisRoom_) {
   this.thisRoom = thisRoom_;
 
   this.phase = 'pickingTeam';
-  this.showGuns = false;
+  this.showGuns = true;
 }
 
 PickingTeam.prototype.gameMove = function (
@@ -88,7 +88,13 @@ PickingTeam.prototype.gameMove = function (
 
     this.thisRoom.VHUpdateTeamPick();
 
-    this.thisRoom.phase = 'votingTeam';
+    this.thisRoom.phase = 'pickingMagicToken';
+    this.thisRoom.playersYetToVote = this.thisRoom.proposedTeam.slice();
+
+    // var str1 = `Mission ${this.thisRoom.missionNum}.${
+    //   this.thisRoom.pickNum
+    // } was approved.`;
+    // this.thisRoom.sendText(this.thisRoom.allSockets, str1, 'gameplay-text');
   } else {
     console.log(
       `User ${socket.request.user.username} is not the team leader. Cannot pick.`
@@ -158,10 +164,16 @@ PickingTeam.prototype.getStatusMessage = function (indexOfPlayer) {
     indexOfPlayer !== undefined &&
     indexOfPlayer === this.thisRoom.teamLeader
   ) {
-    const num =
+    let num =
       this.thisRoom.numPlayersOnMission[
         this.thisRoom.playersInGame.length - this.thisRoom.minPlayers
       ][this.thisRoom.missionNum - 1];
+
+    if (num.length > 1) {
+      num = parseInt(num[0]);
+    } else {
+      num = parseInt(num);
+    }
 
     return `Your turn to pick a team. Pick ${num} players.`;
   }

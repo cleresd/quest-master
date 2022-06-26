@@ -222,7 +222,7 @@ var userOptions = {
   },
 
   optionDisplayDarkTheme: {
-    defaultValue: 'false',
+    defaultValue: 'true',
     onLoad() {
       if (docCookies.getItem('optionDisplayDarkTheme') === 'true') {
         // console.log("Load up dark theme is true");

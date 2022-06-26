@@ -623,9 +623,6 @@ socket.on('gameModes', (GAME_MODE_NAMES) => {
 });
 
 // Update the role and card settings inside the room (cog).
-const defaultActiveRoles = ['Merlin', 'Assassin', 'Percival', 'Morgana'];
-const skipRoles = ['Resistance', 'Spy'];
-
 socket.on('update-game-modes-in-room', (gameModeObj) => {
   let str = '';
 
@@ -633,14 +630,42 @@ socket.on('update-game-modes-in-room', (gameModeObj) => {
 
   // Roles
   for (var i = 0; i < gameModeObj.roles.roleNames.length; i++) {
+    if (gameModeObj.roles.alliances[i] === 'Spy') {
+      continue;
+    }
+
     var name = gameModeObj.roles.roleNames[i];
     // Skip over certain roles since they are enabled by default
-    if (skipRoles.includes(name) === true) {
+    if (gameModeObj.roles.skipRoles.includes(name) === true) {
       continue;
     }
 
     var active;
-    if (defaultActiveRoles.includes(name) === true) {
+    if (gameModeObj.roles.defaultActiveRoles.includes(name) === true) {
+      active = 'active';
+    } else {
+      active = '';
+    }
+
+    str += `<label class='btn btn-mine ${active}'>`;
+    str += `<input style='display: none;' name='${name.toLowerCase()}' id='${name.toLowerCase()}' type='checkbox' autocomplete='off' checked> ${name}`;
+    str += '</label>';
+    str += '<br>';
+  }
+
+  for (var i = 0; i < gameModeObj.roles.roleNames.length; i++) {
+    if (gameModeObj.roles.alliances[i] === 'Resistance') {
+      continue;
+    }
+
+    var name = gameModeObj.roles.roleNames[i];
+    // Skip over certain roles since they are enabled by default
+    if (gameModeObj.roles.skipRoles.includes(name) === true) {
+      continue;
+    }
+
+    var active;
+    if (gameModeObj.roles.defaultActiveRoles.includes(name) === true) {
       active = 'active';
     } else {
       active = '';
@@ -670,9 +695,13 @@ socket.on('update-game-modes-in-room', (gameModeObj) => {
   infoIconString = `<img class="infoIconsSettings pull-right" style="width: 16px; height: 16px;" data-toggle="tooltip" data-placement="left" title="${icons.info.toolTip}" src="${icons.info.glyph}" />`;
 
   for (var i = 0; i < gameModeObj.roles.roleNames.length; i++) {
+    if (gameModeObj.roles.alliances[i] === 'Spy') {
+      continue;
+    }
+
     var name = gameModeObj.roles.roleNames[i];
     // Skip over certain roles since they are enabled by default
-    if (skipRoles.includes(name) === true) {
+    if (gameModeObj.roles.skipRoles.includes(name) === true) {
       continue;
     }
 
@@ -707,6 +736,50 @@ socket.on('update-game-modes-in-room', (gameModeObj) => {
     str += '<br>';
     count += 1;
   }
+
+  for (var i = 0; i < gameModeObj.roles.roleNames.length; i++) {
+    if (gameModeObj.roles.alliances[i] === 'Resistance') {
+      continue;
+    }
+
+    var name = gameModeObj.roles.roleNames[i];
+    // Skip over certain roles since they are enabled by default
+    if (gameModeObj.roles.skipRoles.includes(name) === true) {
+      continue;
+    }
+
+    var greenOrRed;
+    if (gameModeObj.roles.alliances[i] === 'Resistance') {
+      greenOrRed = 'success';
+    } else if (gameModeObj.roles.alliances[i] === 'Spy') {
+      greenOrRed = 'danger';
+    } else {
+      greenOrRed = '';
+    }
+
+    str += `<div class="panel panel-${greenOrRed} roleCardDescription">
+            <div class="panel-heading roleCardDescription" role="tab" id="heading${count}">
+            <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#rolesCardsButtonGroupDescription" href="#collapse-cardRole${count}" aria-expanded="false" aria-controls="collapse-cardRole${count}">
+                ${gameModeObj.roles.alliances[i]} ${infoIconString}
+            </a>
+            </h4>
+            </div>
+            <div id="collapse-cardRole${count}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${count}">
+            <div class="panel-body">
+                ${gameModeObj.roles.descriptions[i]}
+            </div>
+            </div>
+            </div>`;
+
+    // str += "<span class='roleCardDescription'>";
+    // str += gameModeObj.roles.descriptions[i];
+    // str += "</span>";
+
+    str += '<br>';
+    count += 1;
+  }
+
   // Cards
   for (var i = 0; i < gameModeObj.cards.cardNames.length; i++) {
     var name = gameModeObj.cards.cardNames[i];

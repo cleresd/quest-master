@@ -10,7 +10,7 @@ class BlindHunter {
     this.alliance = 'Spy';
 
     this.description = 'May Hunt instead of GLC';
-    this.orderPriorityInOptions = 90;
+    this.orderPriorityInOptions = 10;
 
     this.playerShot = '';
     this.playerShot2 = '';

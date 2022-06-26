@@ -55,8 +55,8 @@
 					<% if(headerActive !== "lobby"){ %>
 					<li><a href="/lobby">Lobby</a></li>
 					<% } %>
-
-					<!-- Rules -->
+<!--
+					 --><!-- Rules --><!--
 					<% if(headerActive === "rules"){ %>
 					<li class="active"><a href="/rules">Rules</a></li>
 					<%} %>
@@ -64,7 +64,7 @@
 					<li><a href="/rules">Rules</a></li>
 					<% } %>
 
-					<!-- Statistics -->
+					 --><!-- Statistics --><!--
 					<% if(headerActive === "stats"){ %>
 					<li class="active"><a href="/statistics">Stats</a></li>
 					<%} %>
@@ -72,13 +72,13 @@
 					<li><a href="/statistics">Stats</a></li>
 					<% } %>
 
-					<!-- Community dropdown -->
-					<!-- <li class="dropdown"> -->
-					<!-- 	<a class="dropdown-toggle wideNavbarLink" data-toggle="" role="button" aria-haspopup="true" aria-expanded="false">Community <span class="caret"></span></a> -->
-					<!-- 	<a class="dropdown-toggle narrowNavbarLink" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Community <span class="caret"></span></a> -->
+					 --><!-- Community dropdown --><!--
+					 --><!-- <li class="dropdown"> --><!--
+					 --><!-- 	<a class="dropdown-toggle wideNavbarLink" data-toggle="" role="button" aria-haspopup="true" aria-expanded="false">Community <span class="caret"></span></a> --><!--
+					 --><!-- 	<a class="dropdown-toggle narrowNavbarLink" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Community <span class="caret"></span></a> --><!--
 
-						<!-- <ul class="dropdown-menu"> -->
-							<!-- Forums -->
+						 --><!-- <ul class="dropdown-menu"> --><!--
+							 --><!-- Forums --><!--
 							<% if(headerActive === "forums"){ %>
 							<li class="active"><a href="/forum">Forums</a></li>
 							<%} %>
@@ -86,23 +86,23 @@
 							<li><a href="/forum">Forums</a></li>
 							<% } %>
 
-							<!-- Members -->
+							 --><!-- Members --><!--
               <% if(headerActive === "community"){ %>
               <li class="active"><a href="/community">Members</a></li>
               <%} %>
               <% if(headerActive !== "community"){ %>
               <li><a href="/community">Members</a></li>
               <% } %>
-						<!-- </ul> -->
-					<!-- </li> -->
+						 --><!-- </ul> --><!--
+					 --><!-- </li> --><!--
 
-					<!-- Development dropdown -->
+					 --><!-- Development dropdown --><!--
 					<li class="dropdown">
 						<a class="dropdown-toggle wideNavbarLink" data-toggle="" role="button" aria-haspopup="true" aria-expanded="false">Development <span class="caret"></span></a>
 						<a class="dropdown-toggle narrowNavbarLink" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Development <span class="caret"></span></a>
 
 						<ul class="dropdown-menu">
-							<!-- Log -->
+							 --><!-- Log --><!--
 							<% if(headerActive === "log"){ %>
 							<li class="active"><a href="/log">Log</a></li>
 							<%} %>
@@ -110,7 +110,7 @@
 							<li><a href="/log">Log</a></li>
 							<% } %>
 
-							<!-- About -->
+							 --><!-- About --><!--
 							<% if(headerActive === "about"){ %>
 							<li class="active"><a href="/about">About</a></li>
 							<%} %>
@@ -121,6 +121,7 @@
 							<li><a href="https://github.com/vck3000/ProAvalon">Github</a></li>
 						</ul>
 					</li>
+					-->
 
 					<% if(locals.isMod && isMod === true){ %>
 							<% if(headerActive === "mod"){ %>

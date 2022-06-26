@@ -110,6 +110,7 @@ function draw() {
     restoreHighlightedAvatars(highlightedAvatars);
 
     if (gameStarted === true) {
+      drawPlayerPositions(gameData.playerPositions);
       drawExitedPlayers(gameData.gamePlayersInRoom);
 
       if (gameData.finished !== true) {
@@ -150,9 +151,6 @@ function draw() {
         }
       }
     } else {
-      // TODO REMOVE THIS LATER
-      // if we are the host
-      if (ownUsername === getUsernameFromIndex(0)) {
         currentOptions = getOptions();
         let str = '';
 
@@ -163,11 +161,12 @@ function draw() {
         // remove the last , and replace with .
         str = str.slice(0, str.length - 2);
         str += '.';
-
-        setStatusBarText(`Current roles: ${str}`);
-      } else {
-        setStatusBarText('Waiting for game to start... ');
-      }
+        // if we are the host
+        if (ownUsername === getUsernameFromIndex(0)) {
+          setStatusBarText(`Current roles: ${str}`);
+        } else {
+          setStatusBarText(`Waiting for the host. Current roles: ${str}`);
+        }
     }
 
     activateAvatarButtons();
@@ -259,6 +258,21 @@ function activateAvatarButtons() {
       }
       draw();
     });
+  }
+}
+
+function drawPlayerPositions(playerPositions) {
+  if (gameStarted === false) {
+    return;
+  }
+
+  for (let playerIndex = 0; playerIndex < playerPositions.length; playerIndex++) {
+    if ($('#mainRoomBox div')[playerIndex]) {
+      const injectedHTML =`<span style="font-size: 4em;position: absolute;top: 20%;left: ${playerPositions[playerIndex] >= 9 ? 30 : 40}%;opacity: 0.8;color: darkgray;">${playerPositions[playerIndex] + 1}</span>`
+
+      // update the str in the div
+      $('#mainRoomBox div')[playerIndex].innerHTML += injectedHTML;
+    }
   }
 }
 
@@ -695,7 +709,7 @@ function drawTeamLeader() {
 }
 
 function drawClaimingPlayers(claimingPlayers) {
-  $(buttons.claim)[0].innerText = 'Claim';
+  $(buttons.claim)[0].innerText = 'Cringe';
   // Initially when someone creates a room, enable claim button
   if (isSpectator === false) {
     $(buttons.claim).removeClass('disabled');
@@ -720,7 +734,7 @@ function drawClaimingPlayers(claimingPlayers) {
       }
 
       if (roomPlayersData[i].username === ownUsername) {
-        $(buttons.claim)[0].innerText = 'Unclaim';
+        $(buttons.claim)[0].innerText = 'Uncringe';
       }
     }
   }
@@ -1039,7 +1053,7 @@ function strOfAvatar(playerData, alliance) {
     searchTerm = 'hammer-dark';
   }
 
-  if (gameStarted === false) {
+  /*if (gameStarted === false) {
     // give hammer star to the host
     if (playerData.username === getUsernameFromIndex(0)) {
       hammerStar =
@@ -1052,7 +1066,7 @@ function strOfAvatar(playerData, alliance) {
       `<span class='hammerSpan' style='position: absolute; left: ${offsetDist}px; bottom: 2px;'>` +
       `<img style='width: 16px; height: 16px;' data-toggle='tooltip' data-placement='left' title='${icons[searchTerm].toolTip}' src=${icons[searchTerm].glyph}>` +
       '</span>';
-  }
+  }*/
 
   let selectedAvatar = '';
   if (selectedAvatars[playerData.username] === 1) {
