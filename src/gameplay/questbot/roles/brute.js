@@ -19,8 +19,8 @@ class Brute extends Minion {
       return 'You are Brute. You can fail only first three missions.'
     }
 
-    if (!isSuccess && hasMagicToken) {
-      return 'You have an amulet. You can\'t fail.';
+    if (super.canVoteOnMission(isSuccess, role, isEvil, hasMagicToken)) {
+      return super.canVoteOnMission(isSuccess, role, isEvil, hasMagicToken);
     }
   }
 }

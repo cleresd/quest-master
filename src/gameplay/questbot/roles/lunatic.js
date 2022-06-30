@@ -15,6 +15,10 @@ class Lunatic extends Minion {
   checkSpecialMove() {}
 
   canVoteOnMission(isSuccess, role, isEvil, hasMagicToken) {
+    if (super.canVoteOnMission(isSuccess, role, isEvil, hasMagicToken)) {
+      return super.canVoteOnMission(isSuccess, role, isEvil, hasMagicToken);
+    }
+
     if (isSuccess && !hasMagicToken) {
       return 'You are Lunatic. You must fail.';
     }

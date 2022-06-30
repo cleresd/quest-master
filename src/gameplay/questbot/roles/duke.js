@@ -12,10 +12,6 @@ class Duke extends Servant {
     this.orderPriorityInOptions = 40;
   }
 
-  see() {
-    return undefined;
-  }
-
   checkSpecialMove() {}
 }
 
