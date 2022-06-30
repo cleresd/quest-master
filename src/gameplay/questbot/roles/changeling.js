@@ -1,5 +1,8 @@
-class Changeling {
+import Minion from "./minion";
+
+class Changeling extends Minion {
   constructor(thisRoom) {
+    super();
     this.thisRoom = thisRoom;
 
     this.role = 'Changeling';

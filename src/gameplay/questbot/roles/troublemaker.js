@@ -1,5 +1,8 @@
-class Troublemaker {
+import Servant from "./servant";
+
+class Troublemaker extends Servant {
   constructor(thisRoom) {
+    super();
     this.thisRoom = thisRoom;
 
     this.role = 'Troublemaker';
@@ -9,11 +12,11 @@ class Troublemaker {
     this.orderPriorityInOptions = 40;
   }
 
-  see() {
-    return undefined;
-  }
-
   checkSpecialMove() {}
+
+  checkAlliance() {
+    return 'красный';
+  }
 }
 
 export default Troublemaker;

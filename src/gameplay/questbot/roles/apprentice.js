@@ -1,5 +1,8 @@
-class Apprentice {
+import Servant from "./servant";
+
+class Apprentice extends Servant {
   constructor(thisRoom) {
+    super();
     this.thisRoom = thisRoom;
 
     this.role = 'Apprentice';
@@ -7,10 +10,6 @@ class Apprentice {
 
     this.description = 'Raises one hand during Good\'s Last Chance, and may raise a second hand after Evil is revealed';
     this.orderPriorityInOptions = 40;
-  }
-
-  see() {
-    return undefined;
   }
 
   checkSpecialMove() {}

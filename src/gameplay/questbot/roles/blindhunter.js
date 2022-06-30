@@ -1,7 +1,9 @@
 import usernamesIndexes from '../../../myFunctions/usernamesIndexes';
+import Minion from "./minion";
 
-class BlindHunter {
+class BlindHunter extends Minion {
   constructor(thisRoom) {
+    super();
     this.thisRoom = thisRoom;
 
     this.specialPhase = 'assassination';

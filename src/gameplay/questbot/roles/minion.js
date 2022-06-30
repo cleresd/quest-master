@@ -36,6 +36,16 @@ class Minion {
   }
 
   checkSpecialMove() {}
+
+  canVoteOnMission(isSuccess, role, isEvil, hasMagicToken) {
+    if (!isSuccess && hasMagicToken) {
+      return 'You have an amulet. You can\'t fail.';
+    }
+  }
+
+  checkAlliance() {
+    return 'красный';
+  }
 }
 
 export default Minion;

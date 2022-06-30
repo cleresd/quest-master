@@ -14,6 +14,16 @@ class Servant {
   }
 
   checkSpecialMove() {}
+
+  canVoteOnMission(isSuccess, role, isEvil, hasMagicToken) {
+    if (!isSuccess) {
+      return 'You are resistance! Surely you want to succeed!';
+    }
+  }
+
+  checkAlliance() {
+    return 'синий';
+  }
 }
 
 export default Servant;

@@ -1,5 +1,8 @@
-class Cleric {
+import Servant from "./servant";
+
+class Cleric extends Servant {
   constructor(thisRoom) {
+    super();
     this.thisRoom = thisRoom;
 
     this.role = 'Cleric';

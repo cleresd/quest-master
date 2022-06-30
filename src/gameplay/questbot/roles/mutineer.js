@@ -1,5 +1,8 @@
-class Mutineer {
+import Minion from "./minion";
+
+class Mutineer extends Minion {
   constructor(thisRoom) {
+    super();
     this.thisRoom = thisRoom;
 
     this.role = 'Mutineer';
