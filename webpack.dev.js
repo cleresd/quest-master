@@ -17,7 +17,7 @@ module.exports = merge(common, {
     contentBase: './assets/dist_webpack',
     compress: true,
     publicPath: '/dist_webpack/',
-    port: 3010,
+    port: 3011,
     hot: true,
   },
 });

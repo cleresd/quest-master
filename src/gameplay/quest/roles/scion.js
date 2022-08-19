@@ -1,5 +1,8 @@
-class Scion {
+import Minion from "./minion";
+
+class Scion extends Minion {
   constructor(thisRoom) {
+    super();
     this.thisRoom = thisRoom;
 
     this.role = 'Scion';

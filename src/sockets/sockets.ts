@@ -659,6 +659,15 @@ export const modCommands = {
     run(data, senderSocket, roomIdInput) {
       const { args } = data;
 
+      const game = senderSocket === undefined
+        ? rooms[roomIdInput]
+        : rooms[senderSocket.request.user.inRoomId];
+
+      if (!args[1] && game.gameStarted) {
+        game.finished = true;
+        game.phase = 'finished';
+      }
+
       if (!args[1]) {
         senderSocket.emit('messageCommandReturnStr', {
           message: 'Specify a number.',
@@ -2860,9 +2869,9 @@ function playerLeaveRoomCheckDestroy(socket) {
       rooms[roomId].allSockets.length === 0
     ) {
       const curr = new Date();
-      // const timeToKill = 1000 * 60 * 60 * 24 * 5; // 5 days
+      // const timeToKill = 1000 * 60 * 60 * 24; // 1 day
       // const timeToKill = 1000 * 60 * 30; // 30 mins
-      const timeToKill = 1000 * 60 * 5; // 5 mins
+      const timeToKill = 1000; // 1s
       // var timeToKill = 1000*10; //10s
       if (
         curr.getTime() - rooms[roomId].timeFrozenLoaded.getTime() >

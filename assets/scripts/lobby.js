@@ -112,6 +112,9 @@ function draw() {
     if (gameStarted === true) {
       drawPlayerPositions(gameData.playerPositions);
       drawExitedPlayers(gameData.gamePlayersInRoom);
+      drawVeteranTokens();
+      drawAmulets();
+      drawFadedAmulets();
 
       if (gameData.finished !== true) {
         $('#missionsBox').removeClass('invisible');
@@ -121,6 +124,8 @@ function draw() {
 
         // draw the votes if there are any to show
         drawVotes(gameData.votes);
+
+        drawMagicTokens();
 
         if (typeof gameData.numSelectTargets === 'number') {
           if (
@@ -165,7 +170,7 @@ function draw() {
         if (ownUsername === getUsernameFromIndex(0)) {
           setStatusBarText(`Current roles: ${str}`);
         } else {
-          setStatusBarText(`Waiting for the host. Current roles: ${str}`);
+          setStatusBarText(`Waiting for the host.`);
         }
     }
 
@@ -680,6 +685,52 @@ function adjustGunPositions() {
   }
 }
 
+function drawVeteranTokens() {
+  for (let i = 0; i < gameData.playerVeterans.length; i++) {
+    let str = $('#mainRoomBox div')[gameData.playerVeterans[i]].innerHTML;
+    let icon = 'veteranToken';
+
+    str = `${str}<img class='leaderIcon' src='${pics[icon].path}' style='${pics[icon].style}'>`;
+    // update the str in the div
+    $('#mainRoomBox div')[gameData.playerVeterans[i]].innerHTML = str;
+  }
+}
+
+function drawMagicTokens() {
+  if (gameData.playerMagicToken === -1) {
+    return;
+  }
+
+  let str = $('#mainRoomBox div')[gameData.playerMagicToken].innerHTML;
+  let icon = 'magicToken';
+
+  str = `${str}<img class='leaderIcon' src='${pics[icon].path}' style='${pics[icon].style}'>`;
+  // update the str in the div
+  $('#mainRoomBox div')[gameData.playerMagicToken].innerHTML = str;
+}
+
+function drawAmulets() {
+  for (let i = 0; i < gameData.playerAmulet.length; i++) {
+    let str = $('#mainRoomBox div')[gameData.playerAmulet[i]].innerHTML;
+    let icon = 'amulet';
+
+    str = `${str}<img class='leaderIcon' src='${pics[icon].path}' style='${pics[icon].style}'>`;
+    // update the str in the div
+    $('#mainRoomBox div')[gameData.playerAmulet[i]].innerHTML = str;
+  }
+}
+
+function drawFadedAmulets() {
+  for (let i = 0; i < gameData.playerAmuletTargets.length; i++) {
+    let str = $('#mainRoomBox div')[gameData.playerAmuletTargets[i]].innerHTML;
+    let icon = 'fadedAmulet';
+
+    str = `${str}<img class='leaderIcon' src='${pics[icon].path}' style='${pics[icon].style}'>`;
+    // update the str in the div
+    $('#mainRoomBox div')[gameData.playerAmuletTargets[i]].innerHTML = str;
+  }
+}
+
 function drawTeamLeader() {
   let playerIndex;
   if (gameStarted === false) {
@@ -979,7 +1030,7 @@ function strOfAvatar(playerData, alliance) {
         picLink = `avatars/${playerData.avatarImgRes}`;
       }
     } else {
-      picLink = pics.baseRes.path; // 'avatars/base-res.png';
+      picLink = pics.baseRes.path; // 'avatars/base-res.webp';
     }
   } else if (
     playerData.avatarImgSpy &&
@@ -993,7 +1044,7 @@ function strOfAvatar(playerData, alliance) {
       picLink = `avatars/${playerData.avatarImgSpy}`;
     }
   } else {
-    picLink = 'avatars/base-spy.png';
+    picLink = 'avatars/base-spy.webp';
   }
 
   // add in the role of the player, and the percy info
@@ -1113,6 +1164,7 @@ function strOfAvatar(playerData, alliance) {
 function changeView() {
   $('.lobby-container').toggleClass('inactive-window');
   $('.game-container').toggleClass('inactive-window');
+  $('.background-layout').toggleClass('inactive-window');
 
   extendTabContentToBottomInRoom();
 
@@ -1796,6 +1848,15 @@ function scaleGameComponents() {
     `${maxHeight * (playerDivHeightRatio - 0.05)}px`
   );
   $('.leaderIcon').css('max-width', `${maxWidth * playerDivHeightRatio}px`);
+
+  maxHeight = pics.amulet.maxDims.y;
+  maxWidth = pics.amulet.maxDims.x;
+
+  $('.badge').css(
+    'max-height',
+    `${maxHeight}px`
+  );
+  $('.badge').css('max-width', `${maxWidth}px`);
 
   // Scale the Assassin icon in the same way
   const useBullet = docCookies.getItem('optionDisplayUseOldGameIcons');

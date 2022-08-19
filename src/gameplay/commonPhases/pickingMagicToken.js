@@ -42,11 +42,12 @@ PickingMagicToken.prototype.gameMove = function (
       return;
     }
 
-    const magicTokenPlayer = this.thisRoom.playersInGame.findIndex(player => player.username === selectedPlayers[0]);
+/*    const magicTokenPlayer = this.thisRoom.playersInGame.findIndex(player => player.username === selectedPlayers[0]);
 
     this.thisRoom.playerMagicToken = this.thisRoom.playersInGame[magicTokenPlayer].role === 'MorganLeFay'
       ? this.thisRoom.playerMagicToken
-      : magicTokenPlayer;
+      : magicTokenPlayer;*/
+    this.thisRoom.playerMagicToken = this.thisRoom.playersInGame.findIndex(player => player.username === selectedPlayers[0]);
 
     //--------------------------------------
     // Send out the gameplay text
@@ -129,5 +130,22 @@ PickingMagicToken.prototype.getStatusMessage = function (indexOfPlayer) {
 
   return 'ERROR: Tell the admin if you see this, code 10.';
 };
+
+PickingMagicToken.prototype.getProhibitedIndexesToPick = function(indexOfPlayer){
+  // If we are not the team leader
+  if (indexOfPlayer !== this.thisRoom.teamLeader) {
+    return null;
+  }
+
+  const prohibitedIndexes = [];
+
+  for (let i = 0; i < this.thisRoom.playersInGame.length; i++) {
+    if (!this.thisRoom.proposedTeam.includes(this.thisRoom.playersInGame[i].username)) {
+      prohibitedIndexes.push(i);
+    }
+  }
+
+  return prohibitedIndexes;
+}
 
 export default PickingMagicToken;

@@ -28,7 +28,8 @@ class MorganLeFay extends Minion{
 
           if (
             (this.thisRoom.playersInGame[i].role === 'BlindHunter' && playersCount >= 6) ||
-            this.thisRoom.playersInGame[i].role === 'Changeling') {
+            this.thisRoom.playersInGame[i].role === 'Changeling' ||
+            this.thisRoom.playersInGame[i].role === 'Mutineer') {
             // don't add blind hunter (if >= 6 players), changeling
           } else {
             // add the spy

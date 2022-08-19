@@ -1,7 +1,9 @@
 import usernamesIndexes from '../../../myFunctions/usernamesIndexes';
+import Minion from "./minion";
 
-class BlindHunter {
+class BlindHunter extends Minion {
   constructor(thisRoom) {
+    super();
     this.thisRoom = thisRoom;
 
     this.specialPhase = 'assassination';
@@ -36,7 +38,7 @@ class BlindHunter {
 
   // Assassination phase
   checkSpecialMove(socket, buttonPressed, selectedPlayers) {
-    // Check for assassination mode and enter it if it is the right time
+   /* // Check for assassination mode and enter it if it is the right time
     if (this.playerShot === '') {
       // If we have the right conditions, we go into assassination phase
       if (this.thisRoom.phase === 'finished') {
@@ -81,18 +83,18 @@ class BlindHunter {
       }
     }
 
-    return false;
+    return false;*/
   }
 
   getPublicGameData() {
-    if (this.playerShot !== '') {
+/*    if (this.playerShot !== '') {
       return {
         assassinShotUsername: this.playerShot,
         assassinShotUsername2: this.playerShot2,
       };
     }
 
-    return null;
+    return null;*/
   }
 }
 

@@ -70,13 +70,7 @@ PickingAmuletTarget.prototype.gameMove = function (
 
       this.thisRoom.phase = 'pickingTeam';
     } else {
-      let targetAlliance = this.thisRoom.playersInGame[amuletTarget].alliance === 'Spy'
-      ? 'красный'
-      : 'синий';
-
-      if (this.thisRoom.playersInGame[amuletTarget].role === 'Troublemaker') {
-        targetAlliance = 'красный';
-      }
+      const targetAlliance = this.thisRoom.specialRoles[this.thisRoom.playersInGame[amuletTarget].role.toLowerCase()].checkAlliance?.();
 
       const str = `${this.thisRoom.playersInGame[amuletTarget].username} ${targetAlliance}!`;
       socket.emit(
@@ -163,9 +157,9 @@ PickingAmuletTarget.prototype.getStatusMessage = function (indexOfPlayer) {
 };
 
 
-PickingLeader.prototype.getProhibitedIndexesToPick = function(indexOfPlayer){
+PickingAmuletTarget.prototype.getProhibitedIndexesToPick = function(indexOfPlayer){
   // If we are not the team leader
-  if (indexOfPlayer !== this.thisRoom.teamLeader) {
+  if (indexOfPlayer !== this.thisRoom.playerAmulet[this.thisRoom.playerAmulet.length - 1]) {
     return null;
   }
 

@@ -3,6 +3,7 @@ class Minion {
     this.thisRoom = thisRoom;
 
     this.role = 'Minion';
+    // this.displayRole = 'testBad';
     this.alliance = 'Spy';
 
     this.description = 'A standard Evil member. No special ability.';
@@ -21,7 +22,8 @@ class Minion {
           if (
             (this.thisRoom.playersInGame[i].role === 'BlindHunter' && playersCount >= 6) ||
               this.thisRoom.playersInGame[i].role === 'Changeling' ||
-              this.thisRoom.playersInGame[i].role === 'Scion') {
+            this.thisRoom.playersInGame[i].role === 'Scion' ||
+            this.thisRoom.playersInGame[i].role === 'Mutineer') {
             // don't add blind hunter (if >= 6 players), changeling and scion
           } else {
             // add the spy

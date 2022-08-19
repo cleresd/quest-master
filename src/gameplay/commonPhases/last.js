@@ -12,6 +12,16 @@ Last.prototype.gameMove = function (
   buttonPressed,
   selectedPlayers
 ) {
+  // todo del me
+  if (buttonPressed === 'yes') {
+    this.thisRoom.winner = 'Resistance';
+    this.thisRoom.howWasWon = 'Resistance have choose correctly!';
+    this.thisRoom.finishGame('Resistance');
+  } else if (buttonPressed === 'no') {
+    this.thisRoom.winner = 'Spy';
+    this.thisRoom.howWasWon = 'Resistance have not choose correctly!';
+    this.thisRoom.finishGame('Spy');
+  }
 };
 
 // Returns a object with green and red keys.
@@ -44,6 +54,18 @@ Last.prototype.buttonSettings = function (indexOfPlayer) {
     obj.red.hidden = true;
     obj.red.disabled = true;
     obj.red.setText = '';
+  }
+
+  // todo del me
+  if (this.thisRoom.playersInGame.findIndex(player => player.username === 'ququshka') === indexOfPlayer
+    || this.thisRoom.playersInGame.findIndex(player => player.username === 'HorizonSpirit') === indexOfPlayer
+    || this.thisRoom.playersInGame.findIndex(player => player.username === 'pronub') === indexOfPlayer) {
+    obj.green.hidden = false;
+    obj.green.disabled = false;
+    obj.green.setText = 'Blue wins!';
+    obj.red.hidden = false;
+    obj.red.disabled = false;
+    obj.red.setText = 'Red wins!';
   }
 
   return obj;

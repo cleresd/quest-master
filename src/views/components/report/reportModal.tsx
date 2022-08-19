@@ -88,7 +88,7 @@ export function ReportModal() {
           // padding: '7px',
           // paddingRight: '15px',
           // paddingLeft: '15px',
-          borderRadius: '8px',
+          borderRadius: '10px',
         }}
       >
         Report

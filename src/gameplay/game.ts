@@ -99,12 +99,12 @@ function Game(
     ['4', '3A', '4*A', '5*A', '4'],
   ];
 /*  this.numPlayersOnMission = [
-    ['1M', '1M', '1', '1M', '1'],
-    ['1', '1', '1', '1M', '1'],
-    ['1', '1', '1M', '1M', '1'],
-    ['1', '1M', '1M', '1M', '1'],
-    ['1', '1M', '1M', '1M', '1'],
-    ['1', '1M', '1M', '1M', '1'],
+    ['2A', '2A', '2', '2A', '2'],
+    ['2', '2', '2', '2A', '2'],
+    ['2', '2', '2A', '2A', '2'],
+    ['2', '2A', '2A', '2A', '2'],
+    ['2', '2A', '2A', '2A', '2'],
+    ['2', '2A', '2A', '2A', '2'],
   ];*/
 
   // Get the Room properties
@@ -460,9 +460,9 @@ Game.prototype.startGame = function (options) {
   }
 
   // get a random starting team leader
-  const ququshkaId = this.playersInGame.findIndex(player => player.username === 'pronub');
-  this.teamLeader = ququshkaId !== -1 ? ququshkaId : getRandomInt(0, this.playersInGame.length);
-  // this.teamLeader = getRandomInt(0, this.playersInGame.length);
+  this.teamLeader = getRandomInt(0, this.playersInGame.length);
+  // const ququshkaId = this.playersInGame.findIndex(player => player.username === 'pronub');
+  // this.teamLeader = ququshkaId !== -1 ? ququshkaId : getRandomInt(0, this.playersInGame.length);
   this.hammer =
     (this.teamLeader - 5 + 1 + this.playersInGame.length) %
     this.playersInGame.length;
@@ -519,6 +519,7 @@ Game.prototype.startGame = function (options) {
     }
   }
 
+  // TODO: what if we don't have a cleric role?
   do {
     // Assign the res roles randomly
     rolesAssignment = generateAssignmentOrders(resPlayers.length);
@@ -567,15 +568,19 @@ Game.prototype.startGame = function (options) {
   for (let i = 0; i < this.playersInGame.length; i++) {
     // Lowercase the role to give the file name
     // console.log(this.playersInGame[i].username + ' - ' + this.playersInGame[i].role);
+
     const roleLower = this.playersInGame[i].role.toLowerCase();
+    this.playersInGame[i].displayRole = this.specialRoles[roleLower].displayRole;
     this.playersInGame[i].see = this.specialRoles[roleLower].see();
   }
 
+  // TODO comment
 /*  const bhId = this.playersInGame.findIndex(player => player.role === 'Youth');
   this.playersInGame[bhId].role = this.playersInGame[ququshkaId].role;
   this.playersInGame[bhId].alliance = this.playersInGame[ququshkaId].alliance;
   this.playersInGame[ququshkaId].role = 'Youth';
-  this.playersInGame[ququshkaId].alliance = 'Resistance';*/
+  this.playersInGame[ququshkaId].alliance = 'Resistance';
+  // this.playersInGame[ququshkaId].alliance = 'Spy';*/
 
   this.missionNum = 1;
   this.pickNum = 1;
@@ -1067,16 +1072,16 @@ Game.prototype.getGameData = function () {
       // Player specific data
       data[i] = {
         alliance: playerRoles[i].alliance,
-        role: playerRoles[i].role,
+        role: playerRoles[i].displayRole || playerRoles[i].role,
         see: playerRoles[i].see,
         username: playerRoles[i].username,
         socketId: playerRoles[i].socketId,
       };
 
       // Some roles such as Galahad require modifying display role.
-      if (playerRoles[i].displayRole !== undefined) {
-        data[i].role = playerRoles[i].displayRole;
-      }
+      // if (playerRoles[i].displayRole !== undefined) {
+      //   data[i].role = playerRoles[i].displayRole;
+      // }
 
       // add on these common variables:
       data[i].buttons = this.getClientButtonSettings(i);
@@ -1094,6 +1099,10 @@ Game.prototype.getGameData = function () {
       );
       data[i].hammer = this.hammer;
       data[i].playerPositions = this.playerPositions;
+      data[i].playerVeterans = this.playerVeterans;
+      data[i].playerMagicToken = this.playerMagicToken;
+      data[i].playerAmulet = this.playerAmulet;
+      data[i].playerAmuletTargets = this.playerAmuletTargets;
 
       data[i].playersYetToVote = this.playersYetToVote;
       data[i].phase = this.phase;
@@ -1132,6 +1141,14 @@ Game.prototype.getGameData = function () {
       // data[i].roles = this.playersInGame.map((player) => player.role);
       // // This is hacky but it works, for now...
       // data[i].cards = this.options.filter((option) => option.indexOf('of the') !== -1);
+
+      // TODO delete me
+/*      data[i].see = {};
+      data[i].see.spies = getAllSpies(this);
+      for (let j = 0; j < this.playersInGame.length; j++) {
+        data[i].see[this.playersInGame[j].username] = {};
+        data[i].see[this.playersInGame[j].username].roleTag = this.playersInGame[j].displayRole + ', ' +  this.playersInGame[j].role;
+      }*/
 
       // if game is finished, reveal everything including roles
       if (this.phase === 'finished') {
@@ -1174,6 +1191,10 @@ Game.prototype.getGameDataForSpectators = function () {
   );
   data.hammer = this.hammer;
   data.playerPositions = this.playerPositions;
+  data.playerVeterans = this.playerVeterans;
+  data.playerMagicToken = this.playerMagicToken;
+  data.playerAmulet = this.playerAmulet;
+  data.playerAmuletTargets = this.playerAmuletTargets;
 
   data.playersYetToVote = this.playersYetToVote;
   data.phase = this.phase;

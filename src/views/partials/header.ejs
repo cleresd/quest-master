@@ -39,7 +39,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/"><img id="brand" alt="Brand" src="../../../../pictures/logo.png"></a>
+				<a class="navbar-brand" href="/lobby"><img id="brand" alt="Brand" src="../../../../pictures/logo.webp"></a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -55,8 +55,8 @@
 					<% if(headerActive !== "lobby"){ %>
 					<li><a href="/lobby">Lobby</a></li>
 					<% } %>
-<!--
-					 --><!-- Rules --><!--
+
+					<!-- Rules -->
 					<% if(headerActive === "rules"){ %>
 					<li class="active"><a href="/rules">Rules</a></li>
 					<%} %>
@@ -64,7 +64,7 @@
 					<li><a href="/rules">Rules</a></li>
 					<% } %>
 
-					 --><!-- Statistics --><!--
+					<!-- Statistics --><!--
 					<% if(headerActive === "stats"){ %>
 					<li class="active"><a href="/statistics">Stats</a></li>
 					<%} %>
@@ -352,6 +352,10 @@
 							<div>
 								<label><input type="checkbox" name="optionDisplayEnableAbbreivations" id="optionDisplayEnableAbbreivations"> Enable abbreviations</label>
 							</div>
+							<!--<div>
+								<label><input type="checkbox" name="optionUseCustomBackground" id="optionUseCustomBackground"> Enable custom background: </label>
+								<label><input type="text" name="optionCustomBackgroundUrl" id="optionCustomBackgroundUrl"></label>
+							</div>-->
 
 
 						</div>

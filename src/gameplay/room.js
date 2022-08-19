@@ -503,7 +503,8 @@ Room.prototype.sendOutGameModesInRoomToSocket = function (targetSocket) {
   const cardPriorities = [];
 
   const defaultActiveRoles = this.gameMode.includes('quest')
-    ? ['MorganLeFay', 'BlindHunter', 'Cleric', 'Youth']
+    ? ['MorganLeFay', 'BlindHunter', 'Troublemaker', 'Archduke', 'Youth']
+    // ? ['MorganLeFay', 'BlindHunter', 'Cleric']
     : ['Merlin', 'Assassin', 'Percival', 'Morgana'];
   const skipRoles = this.gameMode.includes('quest')
     ? ['Servant', 'Minion']

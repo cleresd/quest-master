@@ -15,16 +15,23 @@ class Cleric extends Servant {
   see() {
     const obj = {};
     const username = this.thisRoom.playersInGame[this.thisRoom.teamLeader].username;
+    const role = this.thisRoom.playersInGame[this.thisRoom.teamLeader].role;
+    const alliance = this.thisRoom.playersInGame[this.thisRoom.teamLeader].alliance;
 
     obj[username] = {};
 
-    if (this.thisRoom.playersInGame[this.thisRoom.teamLeader].role === 'Troublemaker') {
-      obj[username].roleTag = 'Spy';
-      obj.spies = [this.thisRoom.playersInGame[this.thisRoom.teamLeader].username];
+    if (role === 'Troublemaker') {
+      obj[username].roleTag = 'Красный';
+      obj.spies = [username];
+      this.thisRoom.playersInGame.filter(player => player.role === 'Troublemaker')[0].displayRole = undefined;
+    } else if (role === 'Trickster') {
+      obj[username].roleTag = 'Синий';
     } else {
-      obj[username].roleTag = this.thisRoom.playersInGame[this.thisRoom.teamLeader].alliance;
-      if (this.thisRoom.playersInGame[this.thisRoom.teamLeader].alliance === 'Spy') {
-        obj.spies = [this.thisRoom.playersInGame[this.thisRoom.teamLeader].username];
+      obj[username].roleTag = alliance === 'Spy'
+        ? 'Красный'
+        : 'Синий';
+      if (alliance === 'Spy') {
+        obj.spies = [username];
       }
     }
 

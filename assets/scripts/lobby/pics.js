@@ -17,7 +17,7 @@ const pics = {
   },
 
   crown: {
-    path: 'pictures/crown.png',
+    path: 'pictures/crown.webp',
     style: `
             position: absolute;
             z-index: 2;
@@ -34,19 +34,19 @@ const pics = {
   },
 
   crownBig: {
-    path: 'pictures/crown.png',
+    path: 'pictures/crown.webp',
     style: `
             position: absolute;
             z-index: 2;
             top: 63%;
             left: 90%;
-            transform: translate(-130%, -150%);
+            transform: translate(-200%, -220%);
             width: 128px;
             height: 128px;
         `,
     maxDims: {
-      y: 90,
-      x: 90,
+      y: 51,
+      x: 51,
     },
   },
 
@@ -76,7 +76,7 @@ const pics = {
   },
 
   shieldOrange: {
-    path: 'pictures/shield-orange.png',
+    path: 'pictures/shield-orange.webp',
     position: {
       x: 2,
       y: 1.85,
@@ -88,7 +88,7 @@ const pics = {
   },
 
   shieldOrangeBig: {
-    path: 'pictures/shield-orange.png',
+    path: 'pictures/shield-orange.webp',
     position: {
       x: 4.5,
       y: 0.75,
@@ -134,6 +134,80 @@ const pics = {
 
   // base res
   baseRes: {
-    path: 'avatars/base-res.png',
+    path: 'avatars/base-res.webp',
+  },
+
+  amulet: {
+    path: 'pictures/amulet.webp',
+    style: `
+            position: absolute;
+            z-index: -10;
+            top: 0%;
+            left: -50%;
+            /* transform: translate(-90%, -50%); */
+            // width: 64px;
+            // height: 64px;
+            width: 50%;
+            height: 50%;
+        `,
+    maxDims: {
+      y: 51,
+      x: 51,
+    },
+  },
+  fadedAmulet: {
+    path: 'pictures/fadedAmulet.webp',
+    style: `
+            position: absolute;
+            z-index: -10;
+            top: 50%;
+            left: -50%;
+            /* transform: translate(-90%, -50%); */
+            // width: 64px;
+            // height: 64px;
+            width: 50%;
+            height: 50%;
+        `,
+    maxDims: {
+      y: 51,
+      x: 51,
+    },
+  },
+  magicToken: {
+    path: 'pictures/magicToken.webp',
+    style: `
+            position: absolute;
+            z-index: -10;
+            top: 10%;
+            left: 100%;
+            /*transform: rotate(90deg);*/
+            /* transform: translate(-90%, -50%); */
+            // width: 64px;
+            width: 45%;
+            height: 80%;
+            // height: 128px;
+        `,
+    maxDims: {
+      y: 51,
+      x: 51,
+    },
+  },
+  veteranToken: {
+    path: 'pictures/veteranToken.webp',
+    style: `
+            position: absolute;
+            z-index: -10;
+            top: 0%;
+            left: -50%;
+            /* transform: translate(-90%, -50%); */
+            // width: 64px;
+            // height: 64px;
+            width: 50%;
+            height: 50%;
+        `,
+    maxDims: {
+      y: 51,
+      x: 51,
+    },
   },
 };

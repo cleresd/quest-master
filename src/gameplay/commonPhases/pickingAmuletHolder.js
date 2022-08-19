@@ -148,9 +148,9 @@ PickingAmuletHolder.prototype.getStatusMessage = function (indexOfPlayer) {
 };
 
 
-PickingLeader.prototype.getProhibitedIndexesToPick = function(indexOfPlayer){
+PickingAmuletHolder.prototype.getProhibitedIndexesToPick = function(indexOfPlayer){
   // If we are not the team leader
-  if (indexOfPlayer !== this.thisRoom.teamLeader) {
+  if (indexOfPlayer !== this.thisRoom.previousTeamLeader) {
     return null;
   }
 

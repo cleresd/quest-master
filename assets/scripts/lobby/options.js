@@ -483,6 +483,73 @@ var userOptions = {
     },
   },
 
+/*  optionUseCustomBackground: {
+    defaultValue: 'false',
+    onLoad() {
+      if (docCookies.getItem('optionUseCustomBackground') === 'true') {
+        $('#optionUseCustomBackground')[0].checked = true;
+
+        const backgroundUrl = docCookies.getItem('optionCustomBackgroundUrl');
+        $('.background-layout').css('background-image', 'url(' + backgroundUrl + ')');
+      }
+    },
+    initialiseEventListener() {
+      $('#optionUseCustomBackground')[0].addEventListener('click', () => {
+        const checked = $('#optionUseCustomBackground').is(':checked');
+        const backgroundUrl = $('#optionCustomBackgroundUrl').val();
+
+        if (checked) {
+          $('.background-layout').css('background-image', 'url(' + backgroundUrl + ')');
+        } else {
+          $('.background-layout').css('background-image', '');
+        }
+
+        // save their option in cookie
+        docCookies.setItem(
+          'optionUseCustomBackground',
+          checked.toString(),
+          Infinity
+        );
+      });
+    },
+  },
+
+  optionCustomBackgroundUrl: {
+    defaultValue: '',
+    onLoad() {
+      console.log('OnLoad');
+      const backgroundUrl = docCookies.getItem('optionCustomBackgroundUrl');
+
+      if (backgroundUrl !== undefined) {
+        $('#optionCustomBackgroundUrl').val(backgroundUrl);
+      }
+
+      if (docCookies.getItem('optionUseCustomBackground') === 'true') {
+        $('.background-layout').css('background-image', 'url(' + backgroundUrl + ')');
+      }
+    },
+    initialiseEventListener() {
+      // dark theme option checkbox event listener
+      $('#optionCustomBackgroundUrl')[0].addEventListener('change', () => {
+        const checked = $('#optionUseCustomBackground').is(':checked');
+        const backgroundUrl = $('#optionCustomBackgroundUrl').val();
+
+        if (checked) {
+          $('.background-layout').css('background-image', 'url(' + backgroundUrl + ')');
+        } else {
+          $('.background-layout').css('background-image', '');
+        }
+
+        console.log('OnInitialise: ' + backgroundUrl);
+        // save their option in cookie
+        docCookies.setItem(
+          'optionCustomBackgroundUrl',
+          backgroundUrl,
+          Infinity
+        );
+      });
+    },
+  },*/
 
   //---------------------------------------------
   // Sound Notifications

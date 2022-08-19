@@ -1,5 +1,8 @@
-class Morganlefay {
+import Minion from "./minion";
+
+class MorganLeFay extends Minion{
   constructor(thisRoom) {
+    super();
     this.thisRoom = thisRoom;
 
     this.role = 'MorganLeFay';
@@ -25,7 +28,8 @@ class Morganlefay {
 
           if (
             (this.thisRoom.playersInGame[i].role === 'BlindHunter' && playersCount >= 6) ||
-            this.thisRoom.playersInGame[i].role === 'Changeling') {
+            this.thisRoom.playersInGame[i].role === 'Changeling' ||
+            this.thisRoom.playersInGame[i].role === 'Mutineer') {
             // don't add blind hunter (if >= 6 players), changeling
           } else {
             // add the spy
@@ -40,6 +44,9 @@ class Morganlefay {
   }
 
   checkSpecialMove() {}
+
+  // Not affected by the Magic token
+  canVoteOnMission(isSuccess, role, isEvil, hasMagicToken) {}
 }
 
-export default Morganlefay;
+export default MorganLeFay;

@@ -16,79 +16,27 @@ VotingMission.prototype.gameMove = function (
 
   // if this.thisRoom vote is coming from someone who hasn't voted yet
   if (i !== -1) {
-    if (buttonPressed === 'yes') {
-      const index = usernamesIndexes.getIndexFromUsername(
-        this.thisRoom.playersInGame,
-        socket.request.user.username
+    const index = usernamesIndexes.getIndexFromUsername(
+      this.thisRoom.playersInGame,
+      socket.request.user.username
+    );
+    const hasMagicToken = index === this.thisRoom?.playerMagicToken;
+    const isEvil = this.thisRoom.playersInGame[index].alliance === 'Spy';
+    const role = this.thisRoom.playersInGame[index].role;
+    const errorText = this.thisRoom.specialRoles[role.toLowerCase()].canVoteOnMission?.(buttonPressed === 'yes', role, isEvil, hasMagicToken);
+
+    if (errorText) {
+      socket.emit(
+        'danger-alert',
+        errorText
       );
-      /*const hasMagicToken = index === this.thisRoom.playerMagicToken;
-      const isEvil = this.thisRoom.playersInGame[index].alliance === 'Spy';
-      const role = this.thisRoom.playersInGame[index].role;
+      return;
+    }
 
-      const result = this.thisRoom.specialRoles[role.toLowerCase()].canVoteOnMission?.(true, role, isEvil, hasMagicToken);*/
-
-   /*   if (typeof result === 'string') {
-        socket.emit(
-          'danger-alert',
-          'You are Youth. You have an amulet. You must fail.'
-        );
-        return;
-      }*/
-
-      if (index === this.thisRoom.playerMagicToken && this.thisRoom.playersInGame[index].role === 'Youth') {
-        socket.emit(
-          'danger-alert',
-          'You are Youth. You have an amulet. You must fail.'
-        );
-        return;
-      }
-
-      if (this.thisRoom.playersInGame[index].role === 'Lunatic' && index !== this.thisRoom.playerMagicToken) {
-        socket.emit(
-          'danger-alert',
-          'You are Lunatic. You must fail.'
-        );
-        return;
-      }
-
+    if (buttonPressed === 'yes') {
       this.thisRoom.missionVotes[index] = 'succeed';
       // console.log("received succeed from " + socket.request.user.username);
     } else if (buttonPressed === 'no') {
-      // If the user is a res, they shouldn't be allowed to fail
-      const index = usernamesIndexes.getIndexFromUsername(
-        this.thisRoom.playersInGame,
-        socket.request.user.username
-      );
-
-      if (index === this.thisRoom.playerMagicToken && this.thisRoom.playersInGame[index].role === 'Youth') {
-        // do nothing, Youth must fail
-      } else if (
-        index !== -1 &&
-        this.thisRoom.playersInGame[index].alliance === 'Resistance'
-      ) {
-        socket.emit(
-          'danger-alert',
-          'You are resistance! Surely you want to succeed!'
-        );
-        return;
-      }
-
-      if (index === this.thisRoom.playerMagicToken && this.thisRoom.playersInGame[index].alliance === 'Spy') {
-        socket.emit(
-          'danger-alert',
-          'You have an amulet. You can\'t fail.'
-        );
-        return;
-      }
-
-      if (this.thisRoom.playersInGame[index].role === 'Brute' && this.thisRoom.missionNum >= 4) {
-        socket.emit(
-          'danger-alert',
-          'You are Brute. You can fail only first three missions.'
-        );
-        return;
-      }
-
       this.thisRoom.missionVotes[index] = 'fail';
       // console.log("received fail from " + socket.request.user.username);
     } else {
