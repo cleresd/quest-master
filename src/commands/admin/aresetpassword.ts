@@ -20,14 +20,18 @@ export const aresetpassword = {
       usernameLower: username.toLowerCase(),
     });
 
-    await new Promise<void>((res, rej) => {
+    // TODO [2022-08-20T00:29:52.328Z] TSError: ⨯ Unable to compile TypeScript:
+    // src/commands/admin/aresetpassword.ts:24:12 - error TS2339: Property 'setPassword' does not exist on type 'Document<unknown, any, { lastLoggedIn: { [toPrim
+    // itive]?: {}; toJSON?: {}; toString: {}; toLocaleString: {}; toDateString?: {}; toTimeString?: {}; toLocaleDateString?: {}; toLocaleTimeString?: {}; getTim
+    // e?: {}; ... 34 more ...; valueOf: {}; }[]; ... 32 more ...; roleStats?: any; }> & { ...; } & { ...; }'.
+/*    await new Promise<void>((res, rej) => {
       user.setPassword(new_password, (err: any) => {
         if (err) {
           rej(err);
         }
         res();
       });
-    });
+    });*/
 
     await user.save();
 

@@ -60,6 +60,12 @@ console.log(`Using database url: ${dbLoc}`);
 mongoose.connect(dbLoc, {
   retryWrites: false,
 });
+// mongoose.connect(dbLoc, {
+//   user: 'root',
+//   pass: 'mQobvA4nu69iK3KK',
+//   dbName: 'proavalon',
+//   retryWrites: false,
+// });
 
 // Create a MongoDB session store
 import MongoDBStoreFactory from 'connect-mongodb-session';
