@@ -3,17 +3,10 @@
   "version": "1.0.0",
   "description": "ProAvalon",
   "scripts": {
-    "2": "rd -r .\\assets\\dist_webpack\\* && webpack serve --config webpack.dev.js",
-    "build": "tsc && webpack --config webpack.prod.js && Xcopy /E /I .\\src\\views .\\out",
     "dev": "concurrently -k \"npm:dev:tsnd\" \"npm:dev:webpack\"",
     "dev:tsnd": "ts-node-dev --respawn --ignore-watch \".tsx$\" ./src/app.ts",
     "dev:webpack": "webpack serve --config webpack.dev.js",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --fix",
-    "start": "ts-node ./src/app.ts",
-    "test": "jest",
-    "test:watch": "jest --watchAll",
-    "test:coverage": "jest --coverage"
+    "start": "ts-node ./src/app.ts"
   },
   "author": "Victor Kuo",
   "license": "ISC",
