@@ -63,14 +63,7 @@
     "concurrently": "^6.2.0",
     "@types/node": "^15.12.2",
     "@types/ejs": "^3.0.6",
-    "@types/express": "^4.17.12"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "assets/gameRecordsData/*"
-    ]
-  },
-  "devDependencies": {
+    "@types/express": "^4.17.12",
     "@types/form-data": "^2.5.0",
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
@@ -91,5 +84,12 @@
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.8.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "assets/gameRecordsData/*"
+    ]
+  },
+  "devDependencies": {
   }
 }
