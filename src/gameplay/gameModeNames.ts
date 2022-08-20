@@ -1,1 +1,1 @@
-export const GAME_MODE_NAMES = ['questbot', 'quest', 'avalonBot', 'avalon'];
+export const GAME_MODE_NAMES = ['quest', 'questbot', 'avalonBot', 'avalon'];
