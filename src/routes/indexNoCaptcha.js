@@ -2,7 +2,6 @@ import express from 'express';
 
 const router = express.Router();
 import passport from 'passport';
-import flash from 'connect-flash';
 import sanitizeHtml from 'sanitize-html';
 import mongoose from 'mongoose';
 import myNotification from '../models/notification';

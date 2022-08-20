@@ -1,6 +1,6 @@
-import patreon from 'patreon';
-
-const patreonAPI = patreon.patreon;
+// import patreon from 'patreon';
+//
+// const patreonAPI = patreon.patreon;
 
 const PatreonHelper = {};
 
@@ -9,7 +9,7 @@ PatreonHelper.classFunctionTest = function () {
 };
 
 PatreonHelper.getUserStore = function (token) {
-  const apiClient = patreonAPI(token);
+  /*const apiClient = patreonAPI(token);
 
   return apiClient('/current_user').then(({ store, rawJson }) => {
     const { id } = rawJson.data;
@@ -24,7 +24,7 @@ PatreonHelper.getUserStore = function (token) {
     );
 
     return rawJson.data;
-  });
+  });*/
 };
 
 export default PatreonHelper;

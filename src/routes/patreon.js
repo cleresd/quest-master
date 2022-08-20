@@ -2,26 +2,26 @@ import express from 'express';
 
 const router = express.Router();
 import url from 'url';
-import * as patreon from 'patreon';
+// import * as patreon from 'patreon';
 import middleware from './middleware';
 import User from '../models/user';
 import PatreonId from '../models/patreonId';
 import patreonHelper from '../myFunctions/patreonHelper';
 
-const patreonAPI = patreon.patreon;
-const patreonOAuth = patreon.oauth;
+// const patreonAPI = patreon.patreon;
+// const patreonOAuth = patreon.oauth;
 
-const CLIENT_ID = process.env.patreon_client_ID;
-const CLIENT_SECRET = process.env.patreon_client_secret;
-
-const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
-
-const { patreon_redirectURL } = process.env;
-
-const database = {};
+// const CLIENT_ID = process.env.patreon_client_ID;
+// const CLIENT_SECRET = process.env.patreon_client_secret;
+//
+// const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
+//
+// const { patreon_redirectURL } = process.env;
+//
+// const database = {};
 
 function getPledges(access_token, callback) {
-  const apiClient = patreonAPI(access_token);
+  /*const apiClient = patreonAPI(access_token);
 
   // make api requests concurrently
   return apiClient('/current_user')
@@ -48,7 +48,7 @@ function getPledges(access_token, callback) {
       console.log('Failed to retrieve campaign info');
       console.log(err);
       // return res.json({ status, statusText })
-    });
+    });*/
 }
 
 // getPledges(process.env.myTempToken, (res) => {
@@ -74,7 +74,9 @@ function getPledges(access_token, callback) {
 // });
 
 router.get('/oauth/redirect', (req, res) => {
-  const { code } = req.query;
+  req.flash('error', 'Please sign in to link your patreon account.');
+  res.redirect('/');
+  /*const { code } = req.query;
   let token;
   console.log('HIHI');
   if (!req.user) {
@@ -200,7 +202,7 @@ router.get('/oauth/redirect', (req, res) => {
       console.log(err);
       req.flash('error', 'Something went terribly wrong... :(');
       res.redirect('/profile/${req.user.username}');
-    });
+    });*/
 });
 
 // router.get('/protected/:id', (req, res) => {
