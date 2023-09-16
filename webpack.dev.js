@@ -1,4 +1,4 @@
-const { merge } = require('webpack-merge');
+/*const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -20,4 +20,26 @@ module.exports = merge(common, {
     port: 3011,
     hot: true,
   },
+});*/
+
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
+
+module.exports = merge(common, {
+  mode: 'development',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+          },
+        },
+        exclude: [/node_modules/, /assets/],
+      },
+    ],
+  },
+  devtool: 'source-map',
 });
