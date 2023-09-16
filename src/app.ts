@@ -1,7 +1,7 @@
 // @ts-nocheck
 import './env.js';
-require('events').EventEmitter.prototype._maxListeners = 1;
-require('events').defaultMaxListeners = 1;
+require('events').EventEmitter.prototype._maxListeners = 10;
+require('events').defaultMaxListeners = 10;
 import 'log-timestamp';
 import { sendToDiscordAdmins } from './discord';
 import assert from 'assert';
