@@ -5,7 +5,6 @@ import sanitizeHtml from 'sanitize-html';
 import url from 'url';
 import { isModMiddleware, checkProfileOwnership } from './middleware';
 import User from '../models/user';
-import PatreonId from '../models/patreonId';
 import avatarRequest from '../models/avatarRequest';
 import ModLog from '../models/modLog';
 import { createNotification } from '../myFunctions/createNotification';
@@ -268,17 +267,14 @@ router.post(
   }
 );
 
-const CLIENT_ID = process.env.patreon_client_ID;
-const redirectURL = process.env.patreon_redirectURL;
-
 const loginUrl = url.format({
   protocol: 'https',
   host: 'patreon.com',
   pathname: '/oauth2/authorize',
   query: {
     response_type: 'code',
-    client_id: CLIENT_ID,
-    redirect_uri: redirectURL,
+    client_id: '',
+    redirect_uri: '',
     state: 'chill',
   },
 });
@@ -290,22 +286,6 @@ router.get('/:profileUsername/edit', checkProfileOwnership, (req, res) => {
     (err, foundUser) => {
       if (err) {
         console.log(err);
-      } else if (foundUser.patreonId) {
-        PatreonId.findOne({ id: foundUser.patreonId })
-          .exec()
-          .then((patreonIdObj) => {
-            res.render('profile/edit', {
-              userData: foundUser,
-              patreonLoginUrl: loginUrl,
-              patreonId: patreonIdObj,
-            });
-          })
-          .catch((err) => {
-            res.render('profile/edit', {
-              userData: foundUser,
-              patreonLoginUrl: loginUrl,
-            });
-          });
       } else {
         res.render('profile/edit', {
           userData: foundUser,

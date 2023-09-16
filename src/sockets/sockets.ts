@@ -8,8 +8,6 @@ import { SocketUser } from './types';
 import gameRoom from '../gameplay/gameWrapper.js';
 import savedGameObj from '../models/savedGame';
 import { createNotification } from '../myFunctions/createNotification';
-import { getAllRewardsForUser } from '../rewards/getRewards';
-import REWARDS from '../rewards/constants';
 import avatarRequest from '../models/avatarRequest';
 import User from '../models/user';
 import Ban from '../models/ban';
@@ -2312,7 +2310,6 @@ export const server = function (io: SocketServer): void {
     socket = assignRatingBracket(socket);
 
     socket.request.displayUsername = socket.request.user.username;
-    socket.rewards = await getAllRewardsForUser(socket.request.user);
 
     socket = applyApplicableRewards(socket);
 
@@ -2578,39 +2575,6 @@ function socketCallback(action, room) {
 }
 
 var applyApplicableRewards = function (socket) {
-  // Admin badge
-  if (socket.rewards.includes(REWARDS.ADMIN_BADGE)) {
-    socket.request.badge = 'A';
-  }
-  // Moderator badge
-  else if (socket.rewards.includes(REWARDS.MOD_BADGE)) {
-    socket.request.badge = 'M';
-  }
-  // TO badge
-  else if (socket.rewards.includes(REWARDS.TO_BADGE)) {
-    socket.request.badge = 'T';
-  }
-  // DEV badge
-  else if (socket.rewards.includes(REWARDS.DEV_BADGE)) {
-    socket.request.badge = 'D';
-  }
-  // Tier4 badge
-  if (socket.rewards.includes(REWARDS.TIER4_BADGE)) {
-    socket.request.badge = 'T4';
-  }
-  // Tier3 badge
-  else if (socket.rewards.includes(REWARDS.TIER3_BADGE)) {
-    socket.request.badge = 'T3';
-  }
-  // Tier2 badge
-  else if (socket.rewards.includes(REWARDS.TIER2_BADGE)) {
-    socket.request.badge = 'T2';
-  }
-  // Tier1 badge
-  else if (socket.rewards.includes(REWARDS.TIER1_BADGE)) {
-    socket.request.badge = 'T1';
-  }
-
   return socket;
 };
 

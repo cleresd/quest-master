@@ -9,8 +9,6 @@ import User from '../models/user';
 import myNotification from '../models/notification';
 import gameRecord from '../models/gameRecord';
 import statsCumulative from '../models/statsCumulative';
-import { validEmail, emailExists } from '../routes/emailVerification';
-import { sendEmailVerification } from '../myFunctions/sendEmailVerification';
 
 import { disallowVPNs } from '../util/vpnDetection';
 
@@ -110,14 +108,6 @@ router.post(
     } else if (usernameContainsBadCharacter(req.body.username) === true) {
       req.flash('error', 'Please do not use an illegal character.');
       res.redirect('register');
-    } else if (validEmail(req.body.emailAddress) === false) {
-      req.flash('error', 'Please provide a valid email address.');
-      res.redirect('register');
-    } else if (await emailExists(req.body.emailAddress)) {
-      console.log(req.body.emailAddress);
-      console.log('In email exists... is true');
-      req.flash('error', 'This email address is already in use.');
-      res.redirect('register');
     } else {
       User.register(newUser, req.body.password, (err, user) => {
         if (err) {
@@ -136,7 +126,7 @@ router.post(
             res.redirect('/lobby');
           });
           if (process.env.MY_PLATFORM === 'online') {
-            sendEmailVerification(user, req.body.emailAddress);
+            // sendEmailVerification(user, req.body.emailAddress);
           } else {
             user.emailVerified = true;
             user.markModified('emailVerified');
@@ -202,29 +192,6 @@ router.get('/loginSuccess', async (req, res) => {
 router.get('/loginFail', (req, res) => {
   req.flash('error', 'Log in failed! Please try again.');
   res.redirect('/');
-});
-
-// Special route that needs to exist here as the user may not be logged in yet.
-router.get('/emailVerification/verifyEmailRequest', async (req, res) => {
-  const user = await User.findOne({ emailToken: req.query.token })
-    .populate('notifications')
-    .exec();
-  if (user) {
-    user.emailVerified = true;
-    user.emailToken = undefined;
-    user.markModified('emailVerified');
-    user.markModified('emailToken');
-    user.save();
-
-    req.flash('success', 'Email verified! Thank you!');
-    res.redirect('/');
-  } else {
-    req.flash(
-      'error',
-      "The link provided for email verification is invalid or expired. Please log in and press the 'Resend verification email' button."
-    );
-    res.redirect('/');
-  }
 });
 
 // /lobby route is in a separate file.

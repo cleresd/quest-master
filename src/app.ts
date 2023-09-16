@@ -3,7 +3,6 @@ import './env.js';
 require('events').EventEmitter.prototype._maxListeners = 3;
 require('events').defaultMaxListeners = 3;
 import 'log-timestamp';
-import { sendToDiscordAdmins } from './discord';
 import assert from 'assert';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -22,14 +21,11 @@ import createProxyMiddleware from 'http-proxy-middleware';
 
 import { server as socketServer } from './sockets/sockets';
 import User from './models/user';
-import { isLoggedIn, emailVerified } from './routes/middleware';
+import { isLoggedIn } from './routes/middleware';
 import indexRoutes from './routes/index';
 import communityRoutes from './routes/community';
-import { emailVerificationRoutes } from './routes/emailVerification';
 import lobbyRoutes from './routes/lobby';
-import forumRoutes from './routes/forum';
 import profileRoutes from './routes/profile';
-import patreonRoutes from './routes/patreon';
 import modRoutes from './routes/mod';
 
 const assetsPath = path.join(__dirname, '../assets');
@@ -99,12 +95,10 @@ process
       ${reason.stack}`;
 
     console.error(msg);
-    sendToDiscordAdmins(msg);
   })
   .on('uncaughtException', (err) => {
     const msg = `Uncaught exception: ${err.stack}`;
     console.error(msg);
-    sendToDiscordAdmins(msg);
   });
 
 // authentication
@@ -150,15 +144,10 @@ app.use(communityRoutes);
 // Lobby, forum, and profile routes require a logged in user
 app.use(isLoggedIn);
 
-app.use('/emailVerification', emailVerificationRoutes);
-
-app.use(emailVerified);
 
 app.use('/mod', modRoutes);
-app.use('/patreon', patreonRoutes);
 
 app.use('/lobby', lobbyRoutes);
-app.use('/forum', forumRoutes);
 app.use('/profile', profileRoutes);
 
 const IP = process.env.IP || '127.0.0.1';
