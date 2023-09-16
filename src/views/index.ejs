@@ -1,7 +1,6 @@
 <%- include('partials/header'); -%>
 
 <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
 
 <style>
@@ -115,7 +114,7 @@ $( document ).ready(function() {
 			// console.log(subStr);
 			// console.log(moment(subStr, "x").format("LLL"));
 
-			var localBanExpire = moment(subStr, "x").format("LLL");
+			var localBanExpire = new Date();
 
 			var firstHalf = timeStampStr.substring(
 				0, 

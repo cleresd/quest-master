@@ -1,6 +1,5 @@
 // @ts-nocheck
 import axios from 'axios';
-import moment from 'moment';
 import sanitizeHtml from 'sanitize-html';
 import { Server as SocketServer, Socket } from 'socket.io';
 import { SocketUser } from './types';
@@ -261,7 +260,7 @@ export const modCommands = {
           dateCreated: new Date(),
         });
         dataToReturn.push({
-          message: `Ban made on: ${moment(ban.whenMade).format('LLL')}.`,
+          message: `Ban made on: ${new Date()}.`,
           classStr: 'server-text',
           dateCreated: new Date(),
         });
@@ -271,9 +270,7 @@ export const modCommands = {
           dateCreated: new Date(),
         });
         dataToReturn.push({
-          message: `Ban to be released on: ${moment(ban.whenRelease).format(
-            'LLL'
-          )}.`,
+          message: `Ban to be released on: ${new Date()}.`,
           classStr: 'server-text',
           dateCreated: new Date(),
         });
