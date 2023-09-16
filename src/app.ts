@@ -26,7 +26,6 @@ import indexRoutes from './routes/index';
 import communityRoutes from './routes/community';
 import lobbyRoutes from './routes/lobby';
 import profileRoutes from './routes/profile';
-import modRoutes from './routes/mod';
 
 const assetsPath = path.join(__dirname, '../assets');
 
@@ -144,8 +143,6 @@ app.use(communityRoutes);
 // Lobby, forum, and profile routes require a logged in user
 app.use(isLoggedIn);
 
-
-app.use('/mod', modRoutes);
 
 app.use('/lobby', lobbyRoutes);
 app.use('/profile', profileRoutes);
