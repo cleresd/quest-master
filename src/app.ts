@@ -1,7 +1,7 @@
 // @ts-nocheck
 import './env.js';
-require('events').EventEmitter.prototype._maxListeners = 3;
-require('events').defaultMaxListeners = 3;
+require('events').EventEmitter.prototype._maxListeners = 10;
+require('events').defaultMaxListeners = 10;
 import 'log-timestamp';
 import assert from 'assert';
 import bodyParser from 'body-parser';
