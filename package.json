@@ -6,7 +6,7 @@
     "build": "tsc && webpack --config webpack.prod.js && Xcopy .\\src\\views .\\out /E /H /C /I",
     "build:linux": "tsc && webpack --config webpack.prod.js && cp -R ./src/views ./out",
     "dev": "concurrently -k \"npm:dev:tsnd\" \"npm:dev:webpack\"",
-    "dev:tsnd": "npx ts-node-dev --respawn --ignore-watch \".tsx$\" ./src/app.ts",
+    "dev:tsnd": "ts-node-dev --respawn --ignore-watch \".tsx$\" ./src/app.ts",
     "dev:webpack": "webpack serve --config webpack.dev.js",
     "start": "ts-node ./src/app.ts"
   },
@@ -55,6 +55,7 @@
     "treeify": "^1.1.0",
     "ts-loader": "^9.2.3",
     "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^4.7.4",
     "uuid": "^3.3.3",
     "validator": "^13.7.0"

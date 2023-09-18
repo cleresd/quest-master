@@ -31,6 +31,9 @@ const assetsPath = path.join(__dirname, '../assets');
 
 const app = express();
 
+// yarn add express-status-monitor
+// app.use(require('express-status-monitor')());
+
 app.use(compression());
 app.use(express.static(assetsPath, { maxAge: 518400000 })); // expires in 7 days.
 
